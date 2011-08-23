@@ -21,25 +21,32 @@
   <link rel="stylesheet" href="css/style.css?v=1">
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
   <script src="js/libs/modernizr-custom.js"></script>
+  
 </head>
 
 <body>
 
-  <div id="container">
-    <header>
+  	<div data-role="page" data-theme="c" id="page1">
 
-    </header>
-    <div id="main" role="main">
-      
-    </div>
-    
-    <footer>
-
-    </footer>
-  </div> <!--! end of #container -->
+	  <!-- ====== main content starts here ===== -->
+	  <div data-role="header" id="hdrMain" name="hdrMain">
+	  	<h1>Queer Lisboa Mobile</h1>
+	  </div>
+	  <div data-role="content" id="contentMain" name="contentMain">
+		<ul id="programmeList" data-role="listview" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
+		</ul>
+	  </div>
+	  <div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
+	  	<p>&copy; 2011 - Bruno Abrantes</p>
+	  </div>
+	</div><!-- page1 -->
 
   <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
+
+  <script src="js/libs/jquery.mustache.js"></script>
+
+  <script src="js/script.js"></script>
   
   <!-- scripts concatenated and minified via ant build script -->
   <script src="js/mylibs/helper.js"></script>
@@ -52,8 +59,6 @@
       nope : ['js/libs/respond.min.js']
     });
   </script>
-
-  <script src="js/script.js"></script>
 
   <!-- <script src="https://getfirebug.com/firebug-lite.js"></script> -->
   
