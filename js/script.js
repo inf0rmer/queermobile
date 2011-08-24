@@ -11,7 +11,7 @@ var Programme = new function Programme(override) {
 
     var settings = {
         endpoint: 'http://queerlisboa.pt/api/programme/jsonp',
-        itemTemplate: ' {{#node}} <li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="index.html" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li> {{/node}} ',
+        itemTemplate: ' {{#node}} <li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#two" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li> {{/node}} ',
 		dividerTemplate: ' {{#dividers}}<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>{{/dividers}} '
     }
 
