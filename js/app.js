@@ -1,4 +1,7 @@
 $(function() {	
+	$.mobile.ajaxEnabled = false;
+	$.mobile.hashListeningEnabled = false;
+	
 	//Define App namespace
 	window.App = {};
 		
@@ -289,25 +292,21 @@ $(function() {
 	});
 	
 	// Define Routes
-	App.HomeController = Backbone.Router.extend({
+	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
-			'/event/:id': 'show',
-			'/test': 'test'
+			'event/:id': 'showEvent'
 		},
 		
-		test: function() {
-			console.log('testing routes');
-		},
-		
-		show: function(id) {
+		showEvent: function(id) {
+			alert('showing ' + id);
 			new ShowEventView({ model: App.Events.get(id) });
 		}
 		
 	});
 	
 	// Instantiate App
-	new App.HomeController();
+	App.Router = new App.Workspace();
 	Backbone.history.start({pushState: true});
 	
 	App.Views = {};
