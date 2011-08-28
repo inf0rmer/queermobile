@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
 <!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
 
@@ -19,37 +19,33 @@
   <link rel="apple-touch-startup-image" href="img/l/splash.png">
   <meta http-equiv="cleartype" content="on">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/jquery.mobile-1.0b2.min.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
   <script src="js/libs/modernizr-custom.js"></script>
   
 </head>
 
 <body>
 
-  	<div data-role="page" data-theme="c" id="programme">
-		<div data-role="header" id="hdrMain" name="hdrMain">
-			<h1>Programa</h1>
-		</div>
-		<div data-role="content" id="contentMain" name="contentMain" data-theme="c">
-			<ul id="programmeList" data-role="listview" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
-			</ul>
-		</div>
-		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
-			<p>&copy; 2011 - Bruno Abrantes</p>
-		</div>
+  	<div data-role="page" data-theme="c" id="page1">
+
+	  <!-- ====== main content starts here ===== -->
+	  <div data-role="header" id="hdrMain" name="hdrMain">
+	  	<h1>Event</h1>
+	  </div>
+	  <div data-role="content" id="contentMain" name="contentMain" data-theme="c">
+		Event data here
+	  </div>
+	  <div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
+	  	<p>&copy; 2011 - Bruno Abrantes</p>
+	  </div>
 	</div><!-- page1 -->
 
-  <script src="js/libs/jquery-1.6.2.min.js"></script>
-  <script src="js/libs/jquery.mobile-1.0b2.min.js"></script>
-  
-  <script src="js/libs/underscore.min.js"></script>
-  <script src="js/libs/json2.js"></script>
-  
-  <script src="js/libs/backbone-0.5.3.js"></script>
-  
-  <script src="js/libs/handlebars.js"></script>
-  
-  <script src="js/app.js"></script>
+  <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
+
+  <script src="js/libs/jquery.mustache.js"></script>
+
+  <script src="js/script.js"></script>
   
   <!-- scripts concatenated and minified via ant build script -->
   <script src="js/mylibs/helper.js"></script>
