@@ -114,7 +114,7 @@ $(function() {
 		
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#event-{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="event/{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		events: {
 			
@@ -126,7 +126,10 @@ $(function() {
 		},
 
 		render: function() {
-			var result = this.template(this.model.toJSON());
+			var model = this.model.toJSON(),
+			result;
+			
+			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
 			return this;
 		},
@@ -160,6 +163,18 @@ $(function() {
 			if (this.model.get('selected')) $(this.el).attr('selected', 'selected');
 			
 			return this;
+		}
+	});
+	
+	App.ShowEventView = Backbone.View.extend({
+
+		tagName: 'div',
+		
+		render: function() {
+			console.log('rendering');
+			//$("<div data-role='page' id='" + url + "'><div data-role='header'><h1>&nbsp;</h1></div><div data-role='content'><img src='images/ajax-loader.png' /></div></div>").appendTo('body')
+			
+			//$(this.el).attr(
 		}
 	});
 	
@@ -272,6 +287,28 @@ $(function() {
 			App.Views.EventList.refresh();
 		}
 	});
+	
+	// Define Routes
+	App.HomeController = Backbone.Router.extend({
+		
+		routes: {
+			'/event/:id': 'show',
+			'/test': 'test'
+		},
+		
+		test: function() {
+			console.log('testing routes');
+		},
+		
+		show: function(id) {
+			new ShowEventView({ model: App.Events.get(id) });
+		}
+		
+	});
+	
+	// Instantiate App
+	new App.HomeController();
+	Backbone.history.start({pushState: true});
 	
 	App.Views = {};
 	App.Views.DateList = new App.DateListView();
