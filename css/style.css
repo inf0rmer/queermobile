@@ -100,6 +100,10 @@ textarea.contenteditable {-webkit-appearance: none;}
 	background: #E76588;
 }
 
+.filters {
+	margin-bottom: 30px;
+}
+
 /* CSS MQ */
 
 @media only screen and (min-width: 800px) {

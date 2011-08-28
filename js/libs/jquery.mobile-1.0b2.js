@@ -2653,23 +2653,6 @@ $.widget( "mobile.page", $.mobile.widget, {
 		}
 		// XXX: REMOVE_BEFORE_SHIPPING_1.0
 		
-		/*
-       	 *
-         *  @bnolans patch for backbone...
-         *
-         */
-         if(to.length == 0){ // Page could not be found
-			// console.log("Routing to " + url + "...");
-
-			to = $("<div data-role='page' id='" + url + "'><div data-role='header'><h1>&nbsp;</h1></div><div data-role='content'><img src='images/ajax-loader.png' /></div></div>").appendTo('body');
-			
-			enhancePage();
-        }
-        
-        /*
-         * End of patch.
-         */
-		
 		// If we are in the midst of a transition, queue the current request.
 		// We'll call changePage() once we're done with the current transition to
 		// service the request.

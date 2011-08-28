@@ -1,13 +1,9 @@
 $(function() {	
-	//Override Underscore's default template delimiters
-	/*
-	_.templateSettings = {
-  		interpolate : /\{\{(.+?)\}\}/g
-	};
-	*/
-	
-	//Define Model
-	window.Event = Backbone.Model.extend({
+	//Define App namespace
+	window.App = {};
+		
+	//Define Models
+	App.Event = Backbone.Model.extend({
 		
 		defaults : function() {
 			return {
@@ -27,12 +23,34 @@ $(function() {
 		
 	});
 	
-	//Define Collection
-	window.EventList = Backbone.Collection.extend({
+	App.Date = Backbone.Model.extend({
 		
-		model: Event,
+		defaults: function() {
+			var now = new Date();
+			
+			return {
+				date: now,
+				selected: false
+			}
+		},
 		
-		url: 'http://queerlisboa.pt/api/programme/jsonp/get',
+		select: function() {
+			//Deselect all others
+			App.Dates.each(function(date){
+				date.set({selected: false});
+			});
+			
+			this.set({selected: true});
+		}
+		
+	});
+	
+	//Define Collections
+	App.EventList = Backbone.Collection.extend({
+		
+		model: App.Event,
+		
+		url: 'http://queerlisboa.pt/api/programme/jsonp/get/',
 		
 		parse : function(resp) {
 			var nodeArray = [];	
@@ -42,20 +60,55 @@ $(function() {
 			
 			return nodeArray;
 		}
+	});	
+	App.Events = new App.EventList;
+	
+	App.DateList = Backbone.Collection.extend({
+
+		model: App.Date,
 		
+		url: 'http://queerlisboa.pt/api/dates/jsonp/get/',
 		
-		//storage: new Store('programme'),
-		/*
-		comparator: function(event) {
-			return event.get('title');
-		}
-		*/
+		parse : function(resp) {
+			var dateArray = [],
+			selected = false;
+			
+			_.each(resp.dates, function(obj){
+				selected = dateObj == new Date();
+				
+				var dateObj = new Date(obj.date.value),
+				formattedObj = {
+					date: dateObj,
+					selected: selected
+				}
+				dateArray.push(formattedObj);
+			});
+			
+			if (!selected) dateArray[0].selected = true;
+			
+			return dateArray;
+		},
+		
+		getSelected: function() {
+			var selectedDate;
+			this.each(function(date){
+				if (date.get('selected')) selectedDate = date;
+			});
+			
+			return selectedDate;
+		},
+		
+		getSelectedAsURL : function() {
+			var obj = this.getSelected(),
+			date = new Date(obj.get('date'));
+			
+			return date.strftime('%Y-%m-%d');
+		}		
 	});
+	App.Dates = new App.DateList;
 	
-	window.Events = new EventList;
-	
-	//Define View
-	window.EventView = Backbone.View.extend({
+	//Define Views
+	App.EventView = Backbone.View.extend({
 		
 		tagName: 'li',
 		
@@ -64,7 +117,7 @@ $(function() {
 		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#event-{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		events: {
-			//'click' : "showTitle"
+			
 		},
 		
 		initialize: function() {
@@ -77,7 +130,6 @@ $(function() {
 			$(this.el).attr('data-theme', 'c').html(result);
 			return this;
 		},
-		/*
 		setTitle: function() {
 			var title = this.model.get('title');
 			$(this.el).text(title);
@@ -89,16 +141,30 @@ $(function() {
 		
 		clear: function() {
 			this.model.destroy();
-		},
-		
-		showTitle: function() {
-			alert(this.model.get('title'));
 		}
-		*/
 	});
 	
-	//Define the top-level App View
-	window.AppView = Backbone.View.extend({
+	App.DateView = Backbone.View.extend({
+		
+		tagName: 'option',
+		
+		initialize: function() {
+			_.bindAll(this, 'render');
+			//this.model.bind('change', this.render, this);
+		},
+		
+		render: function() {
+			var date = this.model.get('date');
+			$(this.el).attr('value', date.strftime('%Y/%m/%d')).html(date.strftime('%d/%m/%Y'));
+			
+			if (this.model.get('selected')) $(this.el).attr('selected', 'selected');
+			
+			return this;
+		}
+	});
+	
+	//Define the top-level App Views
+	App.EventListView = Backbone.View.extend({
 		
 		el: $('#programmeList'),
 		
@@ -107,51 +173,107 @@ $(function() {
 		},
 		
 		initialize: function() {
-			//Events.bind('add', 		this.addOne, this);
-			//Events.bind('reset', 	this.addAll, this);
-			//Events.bind('all', 		this.render, this);
-		/*	
-			Events.fetch( {dataType: 'jsonp', success: function(data) {
-				var jsonData = data.toJSON(),
-				nodeArray = [];
-				
-				_.each(jsonData[0].nodes, function(element){
-					nodeArray.push(element.node);
-				});
-				
-				data = nodeArray;
-			}} );
-		*/
 			_.bindAll(this,'addOne','render');
-			Events.bind('reset', this.render);
-			Events.bind('add', this.addOne);
-			Events.fetch({dataType: 'jsonp'});
+			App.Events.bind('reset', this.render);
+			App.Events.bind('add', this.addOne);
+		},
+		
+		refresh: function() {
+			//Fetch programme now
+			App.Events.fetch({
+				dataType: 'jsonp',
+				url: App.Events.url + App.Dates.getSelectedAsURL()
+			});
 		},
 		
 		render: function() {
-			this.$('#programmeList').empty();
-			Events.each(function(event) {
-				var view = new EventView({model: event});
-				this.$('#programmeList').append(view.render().el);
+			var $el = $(this.el),
+			renderDivider = function(obj) {
+				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
+				
+				return template(obj);
+			}
+			
+			$el.empty();
+			App.Events.each(function(event) {
+				var view = new App.EventView({model: event}),
+				previousEvent = App.Events.at(App.Events.indexOf(event) - 1);
+				
+				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {
+					$el.append(renderDivider({
+						hour: event.get('hour')
+					}));
+				}
+				
+				$el.append(view.render().el);
 			});
 		},
 		
 		addOne: function(event) {
-			console.log('addOne');
-			/*
-			Events.fetch({dataType: 'jsonp', success: function(){
-				var view = new EventView( {model: event} );
-				view.render();
-			}});
-			*/
-//			var view = new EventView( {model: event} );
-//			$('#programmeList').append(view.render().el);
+			var view = new App.EventView( {model: event} );
+			$(this.el).append(view.render().el);
 		},
 		
 		addAll: function() {
-			Events.each(this.addOne);
+			App.Events.each(this.addOne);
 		}
 	});
 	
-	window.App = new AppView();
+	App.DateListView = Backbone.View.extend({
+		
+		el: $('#dateSelect'),
+		
+		events: {
+			'change': 'changeSelected'
+		},
+		
+		initialize: function() {
+			var that = this;
+			_.bindAll(this,'addOne','render');
+			App.Dates.bind('reset', this.render);
+			App.Dates.bind('add', this.addOne);
+			
+			App.Dates.fetch({dataType: 'jsonp', success: function(){
+				
+				//Fetch programme now
+				App.Views.EventList.refresh();
+				
+				that.render();
+			}});
+		},
+		
+		render: function() {
+			var $el = $(this.el);
+			$el.empty();
+			App.Dates.each(function(date) {
+				var view = new App.DateView({model: date});
+				$el.append(view.render().el);
+			});
+			
+			$el.selectmenu('refresh', true);
+		},
+		
+		addOne: function(event) {
+			var view = new App.DateView( {model: event} );
+			$(this.el).append(view.render().el);
+		},
+		
+		addAll: function() {
+			App.Dates.each(this.addOne);
+		},
+		
+		changeSelected: function() {
+			var selected = $(this.el).val();
+			App.Dates.each(function(element){
+				var date = element.get('date');
+				if (selected == date.strftime('%Y/%m/%d')) element.select();
+			});
+			
+			App.Views.EventList.refresh();
+		}
+	});
+	
+	App.Views = {};
+	App.Views.DateList = new App.DateListView();
+	App.Views.EventList = new App.EventListView();
 });

@@ -31,8 +31,15 @@
 			<h1>Programa</h1>
 		</div>
 		<div data-role="content" id="contentMain" name="contentMain" data-theme="c">
-			<ul id="programmeList" data-role="listview" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
-			</ul>
+			<section class="filters">
+				<select id="dateSelect">
+				</select>
+			</section>
+			
+			<section class="programme">
+				<ul id="programmeList" data-role="listview" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
+				</ul>
+			</section>
 		</div>
 		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
 			<p>&copy; 2011 - Bruno Abrantes</p>
@@ -48,6 +55,8 @@
   <script src="js/libs/backbone-0.5.3.js"></script>
   
   <script src="js/libs/handlebars.js"></script>
+  
+  <script src="js/libs/strftime.min.js"></script>
   
   <script src="js/app.js"></script>
   
