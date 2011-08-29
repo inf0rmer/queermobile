@@ -52,7 +52,8 @@ namespace :deploy do
   desc "Update the deployed code"
   task :update do
     run "cd #{deploy_to} && git pull origin #{branch}"
-    perl -pi -e'$t = "# " . localtime; s/#\s.*$/$t/e' default.appcache
+    run "cat #{deploy_to}/default.appcache"
+    run "perl -pi -e'$t = \"# \" . localtime; s/#\s.*$/$t/e' #{deploy_to}/default.appcache"
   end
 
   #desc "Rollback a single commit."
