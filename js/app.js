@@ -117,7 +117,7 @@ $(function() {
 		
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="event/{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/event/{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		events: {
 			
@@ -170,11 +170,17 @@ $(function() {
 	});
 	
 	App.ShowEventView = Backbone.View.extend({
-
+		
+		el: $(".ui-page-active"),
+		
 		tagName: 'div',
 		
+		initialize: function() {
+			this.render();
+		},
+		
 		render: function() {
-			console.log('rendering');
+			console.log(arguments);
 			//$("<div data-role='page' id='" + url + "'><div data-role='header'><h1>&nbsp;</h1></div><div data-role='content'><img src='images/ajax-loader.png' /></div></div>").appendTo('body')
 			
 			//$(this.el).attr(
@@ -295,21 +301,31 @@ $(function() {
 	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
-			'event/:id': 'showEvent'
+			'/event/:id': 'showEvent',
+			'/': 'home'
+		},
+		
+		home: function() {
+			console.log('home');
+			App.Views.DateList = new App.DateListView();
+			App.Views.EventList = new App.EventListView();
 		},
 		
 		showEvent: function(id) {
-			alert('showing ' + id);
-			new ShowEventView({ model: App.Events.get(id) });
+			var $toPage = $("<div data-role='page' id='event-" + id + "'><div data-role='header'><h1>teste</h1></div><div data-role='content'><img src='css/images/ajax-loader.png' /></div></div>");
+			$toPage.appendTo('body');
+			
+			$.mobile.changePage($toPage);
+			new App.ShowEventView({ model: App.Events.get(id) });
 		}
 		
 	});
 	
 	// Instantiate App
-	App.Router = new App.Workspace();
-	Backbone.history.start({pushState: true});
-	
 	App.Views = {};
-	App.Views.DateList = new App.DateListView();
-	App.Views.EventList = new App.EventListView();
+	App.Router = new App.Workspace();
+	Backbone.history.start();
+	App.Router.home();
+	
+	
 });
