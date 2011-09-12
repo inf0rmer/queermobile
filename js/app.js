@@ -1,7 +1,9 @@
-$(function() {	
+$(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
-	
+});
+      
+$(function() {	
 	//Define App namespace
 	window.App = {};
 		
@@ -176,35 +178,18 @@ $(function() {
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="index.html" data-rel="back" data-icon="back">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
 		
-		initialize: function(u, options) {
-			if (u && options) this.render(u, options);
+		initialize: function() {
+			this.render();
 		},
 		
-		render: function(urlObj, options) {		
-			// get the event
-			var eventID = urlObj.hash.substr(7),
-				event = App.Events.get(eventID),
-				modelData = event.toJSON(),
-				firstLoad = false;
+		render: function() {
+			if (!$('#event-' + this.model.id).length) $('body').append(this.template(this.model.toJSON()));
 			
-			if (modelData.type = "Film") {
-				
-			}
+			$('div[data-role="page"]').page();
 			
-			if (!$('#event-page-' + modelData.id).length) {
-				$('body').append('<div id="event-page-' + modelData.id +'" data-role="page" data-theme="c"></div>');
-				firstLoad = true;
-			}
-						
-			$('#event-page-' + modelData.id).html(this.template(modelData));
-			
-			$('#event-page-' + modelData.id).page();
-			
-			options.dataUrl = urlObj.href;
-			
-			$.mobile.changePage($('#event-page-' + modelData.id), options);
+			$.mobile.changePage($('#event-' + this.model.id));
 		}
 	});
 	
@@ -298,7 +283,7 @@ $(function() {
 			});
 			
 			//jqmobile
-			$el.selectmenu('refresh', true);
+			//$el.selectmenu('refresh', true);
 		},
 		
 		addOne: function(event) {
@@ -325,6 +310,7 @@ $(function() {
 	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
+			''				: 'home',
 			'/events/:id'	: 'showEvent',
 			'*actions'		: 'defaultRoute'
 		},
@@ -334,29 +320,31 @@ $(function() {
 		},
 		
 		home: function() {
-			console.log('home');
 			//jqmobile
-			$.mobile.changePage($('#home'));
+			if ($.mobile.activePage) $.mobile.changePage($('#home'), 'slide', 'reverse');
 		},
 		
 		showEvent: function(id) {
-			console.log('showing event with id ' + id);
+			new App.ShowEventView({model: App.Events.get(id)});
 		}
 		
 	});
 	
 	// Utilities
 	App.createPage = function(href) {
+		/*
 		$("<div data-theme='c' data-url='" + href.replace('#', '') +"' data-role='page' id='" + href + "'><div data-role='header'><h1>teste</h1></div><div data-role='content'><img src='css/images/ajax-loader.png' /></div></div>").appendTo('body').page();
+		*/
 	}
 	
 	// Instantiate App
 	App.Views = {};
 	App.Router = new App.Workspace();
-	Backbone.history.start();
 	
 	App.Views.DateList = new App.DateListView();
 	App.Views.EventList = new App.EventListView();
+	
+	Backbone.history.start({pushState: true});
 	
 	/*
 	$(document).bind( "pagebeforechange", function( e, data ) {
