@@ -1,6 +1,6 @@
 $(function() {	
-	//$.mobile.ajaxEnabled = false;
-	//$.mobile.hashListeningEnabled = false;
+	$.mobile.ajaxEnabled = false;
+	$.mobile.hashListeningEnabled = false;
 	
 	//Define App namespace
 	window.App = {};
@@ -117,7 +117,7 @@ $(function() {
 		
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#event-{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		events: {
 			'click a': 'showEvent'
@@ -150,7 +150,8 @@ $(function() {
 		},
 		
 		showEvent: function() {
-			new App.ShowEventView( { model: App.Events.get($(this.el).find('a').attr('data-eventID')) } );
+			
+			//new App.ShowEventView( { model: App.Events.get($(this.el).find('a').attr('data-eventID')) } );
 		}
 	});
 	
@@ -175,32 +176,35 @@ $(function() {
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		el: $('#event-page'),
-		
-		template: Handlebars.compile('<div data-role="header"><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="index.html" data-rel="back" data-icon="back">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
 		
 		initialize: function(u, options) {
 			if (u && options) this.render(u, options);
 		},
 		
-		render: function(urlObj, options) {
-			
+		render: function(urlObj, options) {		
 			// get the event
 			var eventID = urlObj.hash.substr(7),
 				event = App.Events.get(eventID),
-				modelData = event.toJSON();
+				modelData = event.toJSON(),
+				firstLoad = false;
 			
 			if (modelData.type = "Film") {
 				
-			}	
-						
-			$(this.el).html(this.template(modelData));
+			}
 			
-			$(this.el).page();
+			if (!$('#event-page-' + modelData.id).length) {
+				$('body').append('<div id="event-page-' + modelData.id +'" data-role="page" data-theme="c"></div>');
+				firstLoad = true;
+			}
+						
+			$('#event-page-' + modelData.id).html(this.template(modelData));
+			
+			$('#event-page-' + modelData.id).page();
 			
 			options.dataUrl = urlObj.href;
 			
-			$.mobile.changePage($(this.el), options);
+			$.mobile.changePage($('#event-page-' + modelData.id), options);
 		}
 	});
 	
@@ -318,12 +322,15 @@ $(function() {
 	});
 	
 	// Define Routes
-	/*
 	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
-			'/event/:id': 'showEvent',
-			'/': 'home'
+			'/events/:id'	: 'showEvent',
+			'*actions'		: 'defaultRoute'
+		},
+		
+		defaultRoute: function() {
+			console.log('default route');
 		},
 		
 		home: function() {
@@ -333,11 +340,10 @@ $(function() {
 		},
 		
 		showEvent: function(id) {
-			
+			console.log('showing event with id ' + id);
 		}
 		
 	});
-	*/
 	
 	// Utilities
 	App.createPage = function(href) {
@@ -346,12 +352,13 @@ $(function() {
 	
 	// Instantiate App
 	App.Views = {};
-	//App.Router = new App.Workspace();
-	//Backbone.history.start();
+	App.Router = new App.Workspace();
+	Backbone.history.start();
 	
 	App.Views.DateList = new App.DateListView();
 	App.Views.EventList = new App.EventListView();
 	
+	/*
 	$(document).bind( "pagebeforechange", function( e, data ) {
 		// We only want to handle changepage calls where the caller is
 		// asking us to load a page by URL.
@@ -375,4 +382,5 @@ $(function() {
 			}
 		}
 	});
+	*/
 });
