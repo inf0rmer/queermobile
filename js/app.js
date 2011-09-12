@@ -1,6 +1,6 @@
 $(function() {	
-	$.mobile.ajaxEnabled = false;
-	$.mobile.hashListeningEnabled = false;
+	//$.mobile.ajaxEnabled = false;
+	//$.mobile.hashListeningEnabled = false;
 	
 	//Define App namespace
 	window.App = {};
@@ -117,10 +117,10 @@ $(function() {
 		
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/event/{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#event-{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		events: {
-			
+			'click a': 'showEvent'
 		},
 		
 		initialize: function() {
@@ -147,6 +147,10 @@ $(function() {
 		
 		clear: function() {
 			this.model.destroy();
+		},
+		
+		showEvent: function() {
+			new App.ShowEventView( { model: App.Events.get($(this.el).find('a').attr('data-eventID')) } );
 		}
 	});
 	
@@ -171,19 +175,32 @@ $(function() {
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		el: $(".ui-page-active"),
+		el: $('#event-page'),
 		
-		tagName: 'div',
+		template: Handlebars.compile('<div data-role="header"><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
 		
-		initialize: function() {
-			this.render();
+		initialize: function(u, options) {
+			if (u && options) this.render(u, options);
 		},
 		
-		render: function() {
-			console.log(arguments);
-			//$("<div data-role='page' id='" + url + "'><div data-role='header'><h1>&nbsp;</h1></div><div data-role='content'><img src='images/ajax-loader.png' /></div></div>").appendTo('body')
+		render: function(urlObj, options) {
 			
-			//$(this.el).attr(
+			// get the event
+			var eventID = urlObj.hash.substr(7),
+				event = App.Events.get(eventID),
+				modelData = event.toJSON();
+			
+			if (modelData.type = "Film") {
+				
+			}	
+						
+			$(this.el).html(this.template(modelData));
+			
+			$(this.el).page();
+			
+			options.dataUrl = urlObj.href;
+			
+			$.mobile.changePage($(this.el), options);
 		}
 	});
 	
@@ -230,6 +247,8 @@ $(function() {
 				}
 				
 				$el.append(view.render().el);
+				
+				App.createPage('event-' + event.get('id'));
 			});
 		},
 		
@@ -274,6 +293,7 @@ $(function() {
 				$el.append(view.render().el);
 			});
 			
+			//jqmobile
 			$el.selectmenu('refresh', true);
 		},
 		
@@ -298,6 +318,7 @@ $(function() {
 	});
 	
 	// Define Routes
+	/*
 	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
@@ -307,25 +328,51 @@ $(function() {
 		
 		home: function() {
 			console.log('home');
-			App.Views.DateList = new App.DateListView();
-			App.Views.EventList = new App.EventListView();
+			//jqmobile
+			$.mobile.changePage($('#home'));
 		},
 		
 		showEvent: function(id) {
-			var $toPage = $("<div data-role='page' id='event-" + id + "'><div data-role='header'><h1>teste</h1></div><div data-role='content'><img src='css/images/ajax-loader.png' /></div></div>");
-			$toPage.appendTo('body');
 			
-			$.mobile.changePage($toPage);
-			new App.ShowEventView({ model: App.Events.get(id) });
 		}
 		
 	});
+	*/
+	
+	// Utilities
+	App.createPage = function(href) {
+		$("<div data-theme='c' data-url='" + href.replace('#', '') +"' data-role='page' id='" + href + "'><div data-role='header'><h1>teste</h1></div><div data-role='content'><img src='css/images/ajax-loader.png' /></div></div>").appendTo('body').page();
+	}
 	
 	// Instantiate App
 	App.Views = {};
-	App.Router = new App.Workspace();
-	Backbone.history.start();
-	App.Router.home();
+	//App.Router = new App.Workspace();
+	//Backbone.history.start();
 	
+	App.Views.DateList = new App.DateListView();
+	App.Views.EventList = new App.EventListView();
 	
+	$(document).bind( "pagebeforechange", function( e, data ) {
+		// We only want to handle changepage calls where the caller is
+		// asking us to load a page by URL.
+		if ( typeof data.toPage === "string" ) {
+			// We are being asked to load a page by URL, but we only
+			// want to handle URLs that request the data for a specific
+			// event.
+			var u = $.mobile.path.parseUrl( data.toPage ),
+				re = /^#event-/;
+			if ( u.hash.search(re) !== -1 ) {
+				// We're being asked to display the items for a specific category.
+				// Call our internal method that builds the content for the category
+				// on the fly based on our in-memory category data structure.
+				//showCategory( u, data.options );
+				
+				var view = new App.ShowEventView(u, data.options);
+	
+				// Make sure to tell changepage we've handled this call so it doesn't
+				// have to do anything.
+				e.preventDefault();
+			}
+		}
+	});
 });

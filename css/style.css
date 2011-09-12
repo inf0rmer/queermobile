@@ -96,7 +96,7 @@ textarea.contenteditable {-webkit-appearance: none;}
    Author:
 */
 
-#hdrMain {
+div[data-role="header"] {
 	background: #E76588;
 }
 
