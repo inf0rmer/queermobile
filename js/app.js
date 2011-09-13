@@ -4,6 +4,7 @@ $(document).bind("mobileinit", function(){
 });
 
 (function() {
+	$('body').removeClass('visuallyhidden').hide().fadeIn('fast');
 	//Define App namespace
 	window.App = {};
 		
