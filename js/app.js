@@ -319,7 +319,9 @@ $(document).bind("mobileinit", function(){
 		initialize: function(date) {
 			var that = this;
 			
-			that.date = date;
+			that.date = date.replace(/-/g, '/');
+			
+			$(this.el).empty();
 			
 			_.bindAll(this,'addOne','render');
 			App.Events.bind('reset', this.render);
@@ -350,8 +352,6 @@ $(document).bind("mobileinit", function(){
 				return template(obj);
 			}
 			
-			
-			$el.empty();
 			$('#showDate').find('[data-role="header"] h1').text(new Date(this.date).strftime('%d/%m/%Y'));
 			
 			App.Events.each(function(event) {
