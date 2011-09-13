@@ -382,8 +382,6 @@ $(document).bind("mobileinit", function(){
 			
 			that.date = date.replace(/-/g, '/');
 			
-			$(this.el).empty();
-			
 			_.bindAll(this,'addOne','render');
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
@@ -412,6 +410,8 @@ $(document).bind("mobileinit", function(){
 			date = new Date(this.date);
 			
 			date.locale = 'pt-pt';
+			
+			$(this.el).empty();
 			
 			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%d/%m/%Y'));
 			
