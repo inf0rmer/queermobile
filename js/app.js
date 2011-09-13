@@ -269,7 +269,7 @@ $(document).bind("mobileinit", function(){
 				filmsArray = [],
 				modelData = this.model.toJSON();
 			
-			modelData.prettyDate = new Date(modelData.date).strftime('%A, %d %B - %H:%M');
+			modelData.prettyDate = new Date(modelData.date.replace(/-/g, '/')).strftime('%A, %d %B - %H:%M');
 			
 			modelData.prettyVenue = modelData.venue.main;
 			
