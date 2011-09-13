@@ -7,6 +7,8 @@ $(document).bind("mobileinit", function(){
 	$('body').removeClass('visuallyhidden').hide().fadeIn('fast');
 	//Define App namespace
 	window.App = {};
+	
+	App.reverseTransition = false;
 		
 	//Define Models
 	App.Event = Backbone.Model.extend({
@@ -254,7 +256,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="c">Date</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time><dt>Venue</dt><dd>{{venue.main}} - {{venue.sub}}</dd></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="c">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time><dt>Venue</dt><dd>{{venue.main}} - {{venue.sub}}</dd></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
 		
 		initialize: function() {
 			this.render();
@@ -460,21 +462,21 @@ $(document).bind("mobileinit", function(){
 		home: function() {
 			//jqmobile			
 			App.reapplyStyles($('#home'));
-			$.mobile.changePage($('#home'), {changeHash: false, reverse: true});
+			$.mobile.changePage($('#home'), {changeHash: false, reverse: App.reverseTransition});
 		},
 		
 		showDatesPage: function() {
 			App.Views.DateList = new App.DateListView;
 			
 			App.reapplyStyles($('#dateSelection'));
-			$.mobile.changePage($('#dateSelection'), {changeHash: false});
+			$.mobile.changePage($('#dateSelection'), {changeHash: false, reverse: App.reverseTransition});
 		},
 		
 		showDate: function(date) {	
 			var view = new App.EventListView(date);
 			
 			App.reapplyStyles($('#showDate'));
-			$.mobile.changePage($('#showDate'), {changeHash: false});
+			$.mobile.changePage($('#showDate'), {changeHash: false, reverse: App.reverseTransition});
 		},
 		
 		showEvent: function(id) {
@@ -499,5 +501,5 @@ $(document).bind("mobileinit", function(){
 $(function() {
 	setTimeout(function() {
 		Backbone.history.start();
-	}, 200);	
+	}, 200);
 });
