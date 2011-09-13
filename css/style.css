@@ -93,6 +93,7 @@ textarea.contenteditable {-webkit-appearance: none;}
 /* Primary Styles for mobile
    Author: Bruno Abrantes
 */
+
 div[data-role="header"] {
 	background: #E76588;
 }
@@ -118,21 +119,51 @@ div[data-role="header"] {
 	background-image:         linear-gradient(top, #333, #5a5a5a);
 }
 
+.ui-body-c {
+	background: rgb(225, 225, 225);
+	color: #222;
+}
+
+ul {
+	list-style-type: none;
+}
+
 dt, dd {
 	text-align:center;
 }
 
-dt {
+dt, h3 {
 	color: #E76588;
 	font-size: 20px;
+	font-weight: normal;
 	line-height: 20px;
 	text-transform: uppercase;
 	font-family: Georgia, serif;
-	margin: 15px 0 2px 0;
+	margin: 25px 0 8px 0;
+	background: url(../img/px-pttrn-4x1s-cocoa-bean-100.png) repeat-x center;
+}
+
+dt span, h3 span {
+	background: rgb(225, 225, 225);
+	padding: 0 8px;
 }
 
 dt:first-child {
 	margin-top: 0;
+}
+
+.event-page .ui-content {
+	text-align: center;
+	font-family: Georgia, serif;
+}
+
+.event-page .ui-content .meta {
+	font-style: italic;
+	color: #666;
+}
+
+.event-page .ui-content p {
+	margin: 10px 0;
 }
 
 /* CSS MQ */

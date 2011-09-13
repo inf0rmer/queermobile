@@ -174,7 +174,7 @@ $(document).bind("mobileinit", function(){
 	App.FilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><p class="trailer"><img src="http://img.youtube.com/vi/{{videoID}}/0.jpg" /><iframe class="youtube-player visuallyhidden" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe></p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h3><span>Trailer</span></h3><object width="425" height="355" class="youtube-player"><param name="movie" value="http://www.youtube.com/v/{{videoID}}?version=3&autohide=1&showinfo=0"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.youtube.com/v/{{videoID}}?version=3&autohide=1&showinfo=0" type="application/x-shockwave-flash" allowscriptaccess="always" width="425" height="355"></embed></object></p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -190,6 +190,9 @@ $(document).bind("mobileinit", function(){
 			
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
+			
+			$('.youtube-player').fitVids();
+			
 			return this;
 		}
 	});
@@ -256,7 +259,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>When</dt><dd><time>{{prettyDate}}</time><dt>Where</dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt>More info</dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" class="event-page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt><span>When</span></dt><dd><time>{{prettyDate}}</time><dt><span>Where</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>More info</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
 		
 		initialize: function() {
 			this.render();
