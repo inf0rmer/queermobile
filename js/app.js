@@ -319,7 +319,7 @@ $(document).bind("mobileinit", function(){
 			
 			date = new Date(modelData.date);
 			
-			alert(date);
+			console.log(modelData.date);
 			
 			date.locale = 'pt-pt';
 			
