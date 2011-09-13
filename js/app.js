@@ -318,7 +318,7 @@ $(document).bind("mobileinit", function(){
 			
 			date.locale = 'pt-pt';
 			
-			alert(date);
+			alert(modelData.date.replace(/-/g, '/'));
 			
 			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
 			
