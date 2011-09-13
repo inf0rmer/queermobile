@@ -501,7 +501,7 @@ $(function() {
 		Backbone.history.start();
 	}, 200);
 	
-	$('[data-rel="back"]').live('click', function() {
+	$('[data-rel="back"] .back').live('click', function() {
 		App.reverseTransition = true;
 	});
 });
