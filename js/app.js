@@ -57,7 +57,7 @@ $(document).bind("mobileinit", function(){
 			});
 			
 			this.set({selected: true});
-		}		
+		}
 	});
 	
 	App.Film = Backbone.Model.extend({
@@ -319,6 +319,8 @@ $(document).bind("mobileinit", function(){
 		initialize: function(date) {
 			var that = this;
 			
+			that.date = date;
+			
 			_.bindAll(this,'addOne','render');
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
@@ -348,7 +350,10 @@ $(document).bind("mobileinit", function(){
 				return template(obj);
 			}
 			
+			
 			$el.empty();
+			$('#showDate').find('[data-role="header"] h1').text(new Date(this.date).strftime('%d/%m/%Y'));
+			
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
 				previousEvent = App.Events.at(App.Events.indexOf(event) - 1);
@@ -387,27 +392,16 @@ $(document).bind("mobileinit", function(){
 			App.Dates.bind('reset', this.render);
 			App.Dates.bind('add', this.addOne);
 			
-			App.Dates.fetch({dataType: 'jsonp', success: function(){
-				
-				//Fetch programme now
-				//App.Views.EventList.refresh();
-				
-				that.render();
-			}});
+			App.Dates.fetch({dataType: 'jsonp'});
 		},
 		
 		render: function() {
 			var $el = $(this.el);
 			$el.empty();
-			App.Dates.each(function(date) {
-				var view = new App.DateView({model: date});
-				$el.append(view.render().el);
-			});
+			
+			this.addAll();
 			
 			//App.reapplyStyles($(this.el));
-			
-			//jqmobile
-			//$el.selectmenu('refresh', true);
 		},
 		
 		addOne: function(event) {
@@ -433,12 +427,10 @@ $(document).bind("mobileinit", function(){
 	}
 	
 	App.reapplyStyles = function($el) {
-		/*
-		$el.find('ul[data-role]').listview();
-	    $el.find('div[data-role="fieldcontain"]').fieldcontain();
+		//$el.find('ul[data-role]').listview();
+	   // $el.find('div[data-role="fieldcontain"]').fieldcontain();
     	$el.find('button[data-role="button"]').button();
-	    $el.find('input,textarea').textinput();
-	    */
+	    //$el.find('input,textarea').textinput();
     	$el.page();
 	}
 	
@@ -490,7 +482,7 @@ $(document).bind("mobileinit", function(){
 			
 			if (!event) {
 				event = new App.Event({id : id});
-			
+				
 				event.fetch({dataType: 'jsonp', success: function() {
 					new App.ShowEventView({model: event});
 				}});
