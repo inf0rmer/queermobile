@@ -166,6 +166,20 @@ dt:first-child {
 	margin: 10px 0;
 }
 
+.event-page .ui-content ul {
+	margin: 0;
+	padding: 0
+}
+
+.event-page .ui-content li {
+	margin: 20px 0 0 0;
+	padding: 0;
+}
+
+.event-page .ui-content li:first-child {
+	margin: 0;
+}
+
 /* CSS MQ */
 
 @media only screen and (min-width: 800px) {
