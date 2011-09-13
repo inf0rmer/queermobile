@@ -46,7 +46,6 @@ $(document).bind("mobileinit", function(){
 			_.each(resp.nodes, function(obj){
 				nodeArray.push(obj.node);
 			});
-			
 			return nodeArray[0];
 		}
 		
@@ -214,7 +213,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object></p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -226,7 +225,7 @@ $(document).bind("mobileinit", function(){
 			result,
 			matches = model.trailer.match(/youtube\.com\/watch\?v=([a-z0-9\-_]+)/i);
 			
-			model.videoID = matches[1];
+			if (model.trailer != '') model.videoID = matches[1];
 			
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
@@ -314,11 +313,13 @@ $(document).bind("mobileinit", function(){
 				filmsArray = [],
 				filmView,
 				modelData = this.model.toJSON(),
-				date = new Date(modelData.date.replace(/-/g, '/'));
+				date;
+			
+			modelData.date = modelData.date.substr(0, modelData.date.indexOf(' '));
+			
+			date = new Date(modelData.date);
 			
 			date.locale = 'pt-pt';
-			
-			alert(modelData.date.replace(/-/g, '/'));
 			
 			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
 			
