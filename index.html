@@ -25,26 +25,47 @@
 </head>
 
 <body>
-
-  	<div data-role="page" data-theme="c" id="home">
+	
+	<div data-role="page" data-theme="c" id="home">
 		<div data-role="header" id="hdrMain" name="hdrMain">
-			<h1>Programa</h1>
+			<h1>Queer Lisboa</h1>
 		</div>
-		<div data-role="content" id="contentMain" name="contentMain" data-theme="c">
-			<section class="filters">
-				<select id="dateSelect">
-				</select>
-			</section>
-			
-			<section class="programme">
-				<ul id="programmeList" data-role="listview" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
-				</ul>
-			</section>
+		<div data-role="content" id="homeContent" name="homeContent" data-theme="c">			
+			<ul id="homeList" data-role="listview" data-theme="c" class="ui-listview">
+				<li><a href="#/dates" class="ui-link-inherit">Agenda</a></li>
+			</ul>
 		</div>
 		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
 			<p>&copy; 2011 - Bruno Abrantes</p>
 		</div>
-	</div><!-- page1 -->
+	</div>
+	
+	<div data-role="page" data-theme="c" id="dateSelection">
+		<div data-role="header" id="hdrMain" name="hdrMain">
+			<a href="#/home" data-icon="back" data-theme="c">Queer Lisboa</a>
+			<h1>Choose Date</h1>
+		</div>
+		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">			
+			<ul id="dateList" data-role="listview" data-theme="c" class="ui-listview">			
+			</ul>
+		</div>
+		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
+			<p>&copy; 2011 - Bruno Abrantes</p>
+		</div>
+	</div>
+	
+  	<div data-role="page" data-theme="c" id="showDate">
+		<div data-role="header" id="hdrMain" name="hdrMain">
+			<h1>Agenda</h1>
+		</div>
+		<div data-role="content" id="programmeContent" name="programmeContent" data-theme="c">			
+			<ul id="programmeList" data-role="listview" data-theme="c" data-filter="true" data-filter-placeholder="Search shows..." data-filter-theme="c" class="ui-listview">			
+			</ul>
+		</div>
+		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
+			<p>&copy; 2011 - Bruno Abrantes</p>
+		</div>
+	</div>
 
   <script src="js/libs/jquery-1.6.2.min.js"></script>
   

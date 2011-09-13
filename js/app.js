@@ -2,8 +2,8 @@ $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
 });
-      
-$(function() {	
+
+(function() {
 	//Define App namespace
 	window.App = {};
 		
@@ -12,18 +12,26 @@ $(function() {
 		
 		defaults : function() {
 			return {
-				title: 'Evento'
+				title: 'Evento',
+				type: 'Film'
 			}
 		},
 		
-		url: 'programme/jsonp/get',
-		
-		urlRoot: 'http://queerlisboa.pt/api',
+		urlRoot: "http://queerlisboa.pt/api/events/jsonp/get/",
 		
 		setTitle : function(newTitle) {
 			this.save({
 				title: newTitle
 			});
+		},
+		
+		parse : function(resp) {
+			var nodeArray = [];	
+			_.each(resp.nodes, function(obj){
+				nodeArray.push(obj.node);
+			});
+			
+			return nodeArray[0];
 		}
 		
 	});
@@ -46,11 +54,58 @@ $(function() {
 			});
 			
 			this.set({selected: true});
+		}		
+	});
+	
+	App.Film = Backbone.Model.extend({
+		
+		defaults: function() {
+			return {
+				title: 'A Film',
+				trailer: '',
+				poster: ''
+			}
+		},
+		
+		parse : function(resp) {
+			var nodeArray = [];	
+			_.each(resp.nodes, function(obj){
+				nodeArray.push(obj.node);
+			});
+			
+			return nodeArray[0];
 		}
 		
 	});
 	
 	//Define Collections
+	App.FilmList = Backbone.Collection.extend({
+
+		model: App.Film,
+		
+		url: function() {
+			var ids = this.pluck('id');
+			
+			_.each(ids, function(item, index) {
+				ids[index] = item.trim();
+			});
+			
+			ids = ids.join(',');
+			
+			return 'http://queerlisboa.pt/api/films/jsonp/get/' + ids;
+		},
+		
+		parse : function(resp) {
+			var nodeArray = [];	
+			_.each(resp.nodes, function(obj){
+				nodeArray.push(obj.node);
+			});
+			
+			return nodeArray;
+		}
+		
+	});
+	
 	App.EventList = Backbone.Collection.extend({
 		
 		model: App.Event,
@@ -112,7 +167,30 @@ $(function() {
 	});
 	App.Dates = new App.DateList;
 	
-	//Define Views
+	//Define Views	
+	App.FilmView = Backbone.View.extend({
+		tagName: 'article',
+		
+		template: Handlebars.compile('<li><article><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><p class="trailer"><img src="http://img.youtube.com/vi/{{videoID}}/0.jpg" /><iframe class="youtube-player visuallyhidden" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe></p></article></li>'),
+		
+		initialize: function() {
+			_.bindAll(this, 'render');
+			this.model.bind('change', this.render, this);
+		},
+		
+		render: function() {
+			var model = this.model.toJSON(),
+			result,
+			matches = model.trailer.match(/youtube\.com\/watch\?v=([a-z0-9\-_]+)/i);
+			
+			model.videoID = matches[1];
+			
+			result = this.template(model);
+			$(this.el).attr('data-theme', 'c').html(result);
+			return this;
+		}
+	});
+	
 	App.EventView = Backbone.View.extend({
 		
 		tagName: 'li',
@@ -120,10 +198,6 @@ $(function() {
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
 		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
-		
-		events: {
-			'click a': 'showEvent'
-		},
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -149,51 +223,88 @@ $(function() {
 		
 		clear: function() {
 			this.model.destroy();
-		},
-		
-		showEvent: function() {
-			
-			//new App.ShowEventView( { model: App.Events.get($(this.el).find('a').attr('data-eventID')) } );
 		}
 	});
 	
 	App.DateView = Backbone.View.extend({
 		
-		tagName: 'option',
+		tagName: 'li',
+		
+	className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
+		
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/dates/{{linkDate}}" class="ui-link-inherit">{{titleDate}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
-			//this.model.bind('change', this.render, this);
 		},
 		
-		render: function() {
-			var date = this.model.get('date');
-			$(this.el).attr('value', date.strftime('%Y/%m/%d')).html(date.strftime('%d/%m/%Y'));
+		render: function() {			
+			var model = this.model.toJSON(),
+			result;
 			
-			if (this.model.get('selected')) $(this.el).attr('selected', 'selected');
+			model.linkDate = model.date.strftime('%Y-%m-%d');
+			model.titleDate = model.date.strftime('%A, %d %B');
 			
+			result = this.template(model);
+			$(this.el).attr('data-theme', 'c').html(result);
 			return this;
 		}
 	});
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="c">Date</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time><dt>Venue</dt><dd>{{venue.main}} - {{venue.sub}}</dd></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
 		
 		initialize: function() {
 			this.render();
 		},
 		
 		render: function() {
-			if (!$('#event-' + this.model.id).length) $('body').append(this.template(this.model.toJSON()));
+			var that = this,
+				relatedFilms,
+				filmCollection,
+				filmsArray = [];
+			
+			if (!App.isPageRendered('event-' + this.model.id)) {
+				$('body').append(this.template(this.model.toJSON()));
+			}
 			
 			$('div[data-role="page"]').page();
 			
-			$.mobile.changePage($('#event-' + this.model.id));
+			$.mobile.changePage($('#event-' + this.model.id), 'slide', false, false);
+			
+			// Get related films
+			if (this.model.get('type').toLowerCase() == 'film') {
+				relatedFilms = this.model.get('related').trim();
+				relatedFilms = relatedFilms.split(',');
+				
+				filmCollection = new App.FilmList;
+				
+				if (!App.isPageRendered('event-' + this.model.id)) $($.mobile.activePage).find('[data-role="content"]').append('<ul class="related-films" data-role="listview" data-theme="c"></ul>');
+				
+				if (!App.isPageRendered('event-' + this.model.id) && relatedFilms.length > 1) $($.mobile.activePage).find('.related-films').before('<h2>Filmes</h2>');
+				
+				if (!App.isPageRendered('event-' + this.model.id)) {
+					_.each(relatedFilms, function(item) {
+						filmsArray.push({id: item});
+					});
+					
+					
+					filmCollection.add(filmsArray);
+					filmCollection.fetch({dataType: 'jsonp', success: function() {
+						filmCollection.each(function(film) {
+							var view = new App.FilmView( {model: film} );
+							$($.mobile.activePage).find('.related-films').append(view.render().el);
+						});
+					}});
+				}
+			}
+			
+			App.renderedPages.push('event-' + this.model.id);
 		}
 	});
 	
-	//Define the top-level App Views
+	
 	App.EventListView = Backbone.View.extend({
 		
 		el: $('#programmeList'),
@@ -202,10 +313,20 @@ $(function() {
 		
 		},
 		
-		initialize: function() {
+		initialize: function(date) {
+			var that = this;
+			
 			_.bindAll(this,'addOne','render');
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
+			
+			App.Events.fetch({
+				dataType: 'jsonp',
+				url: App.Events.url + date,
+				success: function() {
+					that.render();
+				}
+			});
 		},
 		
 		refresh: function() {
@@ -236,8 +357,6 @@ $(function() {
 				}
 				
 				$el.append(view.render().el);
-				
-				App.createPage('event-' + event.get('id'));
 			});
 		},
 		
@@ -253,10 +372,10 @@ $(function() {
 	
 	App.DateListView = Backbone.View.extend({
 		
-		el: $('#dateSelect'),
+		el: $('#dateList'),
 		
 		events: {
-			'change': 'changeSelected'
+			//'change': 'changeSelected'
 		},
 		
 		initialize: function() {
@@ -268,7 +387,7 @@ $(function() {
 			App.Dates.fetch({dataType: 'jsonp', success: function(){
 				
 				//Fetch programme now
-				App.Views.EventList.refresh();
+				//App.Views.EventList.refresh();
 				
 				that.render();
 			}});
@@ -282,6 +401,8 @@ $(function() {
 				$el.append(view.render().el);
 			});
 			
+			//App.reapplyStyles($(this.el));
+			
 			//jqmobile
 			//$el.selectmenu('refresh', true);
 		},
@@ -293,82 +414,89 @@ $(function() {
 		
 		addAll: function() {
 			App.Dates.each(this.addOne);
-		},
-		
-		changeSelected: function() {
-			var selected = $(this.el).val();
-			App.Dates.each(function(element){
-				var date = element.get('date');
-				if (selected == date.strftime('%Y/%m/%d')) element.select();
-			});
-			
-			App.Views.EventList.refresh();
 		}
 	});
+	
+	
+	
+	// Utilities
+	App.renderedPages = [];
+	App.isPageRendered = function(page) {
+		if (_.indexOf(App.renderedPages, page) != -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	App.reapplyStyles = function($el) {
+		/*
+		$el.find('ul[data-role]').listview();
+	    $el.find('div[data-role="fieldcontain"]').fieldcontain();
+    	$el.find('button[data-role="button"]').button();
+	    $el.find('input,textarea').textinput();
+	    */
+    	$el.page();
+	}
+	
+	// Instantiate App
+	App.Views = {};
 	
 	// Define Routes
 	App.Workspace = Backbone.Router.extend({
 		
 		routes: {
-			''				: 'home',
+			'/dates'		: 'showDatesPage',
+			'/dates/:date'	: 'showDate',
 			'/events/:id'	: 'showEvent',
-			'*actions'		: 'defaultRoute'
+			'/home'			: 'home'
 		},
 		
 		defaultRoute: function() {
-			console.log('default route');
+			//this.home();
 		},
 		
 		home: function() {
-			//jqmobile
-			if ($.mobile.activePage) $.mobile.changePage($('#home'), 'slide', 'reverse');
+			//jqmobile			
+			App.reapplyStyles($('#home'));
+			$.mobile.changePage($('#home'), {changeHash: false, reverse: true});
+		},
+		
+		showDatesPage: function() {
+			App.Views.DateList = new App.DateListView;
+			
+			App.reapplyStyles($('#dateSelection'));
+			$.mobile.changePage($('#dateSelection'), {changeHash: false});
+		},
+		
+		showDate: function(date) {	
+			var view = new App.EventListView(date);
+			
+			App.reapplyStyles($('#showDate'));
+			$.mobile.changePage($('#showDate'), {changeHash: false});
 		},
 		
 		showEvent: function(id) {
-			new App.ShowEventView({model: App.Events.get(id)});
+			var event = App.Events.get(id);
+			
+			if (!event) {
+				event = new App.Event({id : id});
+			
+				event.fetch({dataType: 'jsonp', success: function() {
+					new App.ShowEventView({model: event});
+				}});
+			} else {
+				new App.ShowEventView({model: event});
+			}
 		}
 		
 	});
 	
-	// Utilities
-	App.createPage = function(href) {
-		/*
-		$("<div data-theme='c' data-url='" + href.replace('#', '') +"' data-role='page' id='" + href + "'><div data-role='header'><h1>teste</h1></div><div data-role='content'><img src='css/images/ajax-loader.png' /></div></div>").appendTo('body').page();
-		*/
-	}
-	
-	// Instantiate App
-	App.Views = {};
-	App.Router = new App.Workspace();
-	
-	App.Views.DateList = new App.DateListView();
-	App.Views.EventList = new App.EventListView();
-	
-	Backbone.history.start({pushState: true});
-	
-	/*
-	$(document).bind( "pagebeforechange", function( e, data ) {
-		// We only want to handle changepage calls where the caller is
-		// asking us to load a page by URL.
-		if ( typeof data.toPage === "string" ) {
-			// We are being asked to load a page by URL, but we only
-			// want to handle URLs that request the data for a specific
-			// event.
-			var u = $.mobile.path.parseUrl( data.toPage ),
-				re = /^#event-/;
-			if ( u.hash.search(re) !== -1 ) {
-				// We're being asked to display the items for a specific category.
-				// Call our internal method that builds the content for the category
-				// on the fly based on our in-memory category data structure.
-				//showCategory( u, data.options );
-				
-				var view = new App.ShowEventView(u, data.options);
-	
-				// Make sure to tell changepage we've handled this call so it doesn't
-				// have to do anything.
-				e.preventDefault();
-			}
-		}
-	});
-	*/
+	App.Router = new App.Workspace;
+})();
+
+$(function() {
+	setTimeout(function() {
+		Backbone.history.start();
+	}, 200);	
 });

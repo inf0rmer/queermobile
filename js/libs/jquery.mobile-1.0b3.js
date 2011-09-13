@@ -3210,9 +3210,13 @@ $.widget( "mobile.page", $.mobile.widget, {
 		};
 
 		//hashchange event handler
-		$window.bind( "hashchange", function( e, triggered ) {
-			$.mobile._handleHashChange( location.hash );
-		});
+		
+		if ($.mobile.hashListeningEnabled) {
+			$window.bind( "hashchange", function( e, triggered ) {
+				$.mobile._handleHashChange( location.hash );
+			});
+		}
+		
 
 		//set page min-heights to be device specific
 		$( document ).bind( "pageshow", resetActivePageHeight );
@@ -3319,7 +3323,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 		},
 
 		init: function() {
-			$win.bind( "hashchange", self.onHashChange );
+			if ($.mobile.hashListeningEnabled) $win.bind( "hashchange", self.onHashChange );
 
 			// Handle popstate events the occur through history changes
 			$win.bind( "popstate", self.onPopState );
