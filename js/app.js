@@ -463,6 +463,8 @@ $(document).bind("mobileinit", function(){
 			//jqmobile			
 			App.reapplyStyles($('#home'));
 			$.mobile.changePage($('#home'), {changeHash: false, reverse: App.reverseTransition});
+			
+			App.reverseTransition = false;
 		},
 		
 		showDatesPage: function() {
@@ -470,6 +472,8 @@ $(document).bind("mobileinit", function(){
 			
 			App.reapplyStyles($('#dateSelection'));
 			$.mobile.changePage($('#dateSelection'), {changeHash: false, reverse: App.reverseTransition});
+			
+			App.reverseTransition = false;
 		},
 		
 		showDate: function(date) {	
@@ -477,6 +481,8 @@ $(document).bind("mobileinit", function(){
 			
 			App.reapplyStyles($('#showDate'));
 			$.mobile.changePage($('#showDate'), {changeHash: false, reverse: App.reverseTransition});
+			
+			App.reverseTransition = false;
 		},
 		
 		showEvent: function(id) {
@@ -502,4 +508,8 @@ $(function() {
 	setTimeout(function() {
 		Backbone.history.start();
 	}, 200);
+	
+	$('[data-rel="back"]').live('click', function() {
+		App.reverseTransition = true;
+	});
 });
