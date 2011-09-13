@@ -71,8 +71,6 @@ body, select, input, textarea {
   color: #444;
 }
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
 .nocallout {-webkit-touch-callout: none;}
 .ellipsis {
   text-overflow: ellipsis;
@@ -97,6 +95,20 @@ textarea.contenteditable {-webkit-appearance: none;}
 */
 div[data-role="header"] {
 	background: #E76588;
+}
+
+.ui-btn-active {
+	border: 1px solid 		#000;
+	background: 			#3d3d3d;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#5a5a5a)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #333, #5a5a5a); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient(top, #333, #5a5a5a); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #333, #5a5a5a); /* IE10 */
+	background-image:      -o-linear-gradient(top, #333, #5a5a5a); /* Opera 11.10+ */
+	background-image:         linear-gradient(top, #333, #5a5a5a);
 }
 
 /* CSS MQ */
