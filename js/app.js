@@ -256,7 +256,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>Date:</dt><dd><time>{{date}}</time><dt>Venue</dt><dd>{{venue.main}} - {{venue.sub}}</dd></dd>{{#if note}}<dt>Notes:</dt><dd>{{note}}</dd>{{/if}}</dl></div></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt>When</dt><dd><time>{{prettyDate}}</time><dt>Where</dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt>More info</dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
 		
 		initialize: function() {
 			this.render();
@@ -266,10 +266,17 @@ $(document).bind("mobileinit", function(){
 			var that = this,
 				relatedFilms,
 				filmCollection,
-				filmsArray = [];
+				filmsArray = [],
+				modelData = this.model.toJSON();
+			
+			modelData.prettyDate = new Date(modelData.date).strftime('%A, %d %B - %H:%M');
+			
+			modelData.prettyVenue = modelData.venue.main;
+			
+			if (modelData.venue.sub && modelData.venue.sub != null) modelData.prettyVenue += ' - ' + modelData.venue.sub;
 			
 			if (!App.isPageRendered('event-' + this.model.id)) {
-				$('body').append(this.template(this.model.toJSON()));
+				$('body').append(this.template(modelData));
 			}
 			
 			$('div[data-role="page"]').page();
@@ -329,10 +336,7 @@ $(document).bind("mobileinit", function(){
 			
 			App.Events.fetch({
 				dataType: 'jsonp',
-				url: App.Events.url + date,
-				success: function() {
-					that.render();
-				}
+				url: App.Events.url + date
 			});
 		},
 		

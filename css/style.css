@@ -97,6 +97,13 @@ div[data-role="header"] {
 	background: #E76588;
 }
 
+[data-role="footer"] p {
+	float: left;
+	margin: 15px;
+	font-weight: normal;
+	font-size: .9em;
+}
+
 .ui-btn-active {
 	border: 1px solid 		#000;
 	background: 			#3d3d3d;
@@ -109,6 +116,23 @@ div[data-role="header"] {
 	background-image:     -ms-linear-gradient(top, #333, #5a5a5a); /* IE10 */
 	background-image:      -o-linear-gradient(top, #333, #5a5a5a); /* Opera 11.10+ */
 	background-image:         linear-gradient(top, #333, #5a5a5a);
+}
+
+dt, dd {
+	text-align:center;
+}
+
+dt {
+	color: #E76588;
+	font-size: 13px;
+	line-height: 20px;
+	text-transform: uppercase;
+	font-family: Georgia, serif;
+	margin: 15px 0 2px 0;
+}
+
+dt:first-child {
+	margin-top: 0;
 }
 
 /* CSS MQ */
