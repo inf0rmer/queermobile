@@ -200,7 +200,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Synopsis</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /><a href="http://www.youtube.com/watch?v={{videoID}}"><img src="http://img.youtube.com/vi/{{videoID}}/0.jpg" width="480" height="360" alt="{{title}}" />View on Youtube</a></object></p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Synopsis</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object></p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
