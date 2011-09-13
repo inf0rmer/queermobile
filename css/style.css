@@ -157,6 +157,10 @@ dt:first-child {
 	margin-top: 0;
 }
 
+dd {
+	font-weight: bold;
+}
+
 .event-page .ui-content {
 	text-align: center;
 	font-family: Georgia, serif;
@@ -169,6 +173,7 @@ dt:first-child {
 
 .event-page .ui-content p {
 	margin: 10px 0;
+	text-align: justify;
 }
 
 .event-page .ui-content ul {

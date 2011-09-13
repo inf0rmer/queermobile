@@ -1,3 +1,16 @@
+//Portuguese Date locale
+Date.ext.locales['pt-pt'] = {
+	a: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+	A: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+	b: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+	B: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+	c: '%a %d %b %Y %T %Z',
+	p: ['', ''],
+	P: ['', ''],
+	x: '%d.%m.%Y',
+	X: '%T'
+};
+
 $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
@@ -164,6 +177,7 @@ $(document).bind("mobileinit", function(){
 		getSelectedAsURL : function() {
 			var obj = this.getSelected(),
 			date = new Date(obj.get('date'));
+			date.locale = 'pt-pt';
 			
 			return date.strftime('%Y-%m-%d');
 		}		
@@ -200,7 +214,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Synopsis</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object></p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object></p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -274,6 +288,8 @@ $(document).bind("mobileinit", function(){
 			var model = this.model.toJSON(),
 			result;
 			
+			model.date.locale = 'pt-pt';
+			
 			model.linkDate = model.date.strftime('%Y-%m-%d');
 			model.titleDate = model.date.strftime('%A, %d %B');
 			
@@ -285,7 +301,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" class="event-page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Back</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt><span>When</span></dt><dd><time>{{prettyDate}}</time><dt><span>Where</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>More info</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
+		template: Handlebars.compile('<div data-theme="c" data-role="page" class="event-page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Voltar</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
 		
 		initialize: function() {
 			this.render();
@@ -296,10 +312,15 @@ $(document).bind("mobileinit", function(){
 				relatedFilms,
 				filmCollection,
 				filmsArray = [],
-				filmView;
-				modelData = this.model.toJSON();
+				filmView,
+				modelData = this.model.toJSON(),
+				date = new Date(modelData.date.replace(/-/g, '/'));
 			
-			modelData.prettyDate = new Date(modelData.date.replace(/-/g, '/')).strftime('%A, %d %B - %H:%M');
+			date.locale = 'pt-pt';
+			
+			alert(date);
+			
+			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
 			
 			modelData.prettyVenue = modelData.venue.main;
 			
@@ -386,9 +407,12 @@ $(document).bind("mobileinit", function(){
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
 				
 				return template(obj);
-			}
+			},
+			date = new Date(this.date);
 			
-			$('#showDate').find('[data-role="header"] h1').text(new Date(this.date).strftime('%d/%m/%Y'));
+			date.locale = 'pt-pt';
+			
+			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%d/%m/%Y'));
 			
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
