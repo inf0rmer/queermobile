@@ -132,7 +132,7 @@ dt, dd {
 	text-align:center;
 }
 
-dt, h3 {
+dt, h3, h4 {
 	color: #E76588;
 	font-size: 20px;
 	font-weight: normal;
@@ -141,6 +141,11 @@ dt, h3 {
 	font-family: Georgia, serif;
 	margin: 25px 0 8px 0;
 	background: url(../img/px-pttrn-4x1s-cocoa-bean-100.png) repeat-x center;
+}
+
+h4 {
+	font-size: 15px;
+	background: transparent;
 }
 
 dt span, h3 span {

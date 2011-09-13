@@ -174,7 +174,33 @@ $(document).bind("mobileinit", function(){
 	App.FilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h3><span>Trailer</span></h3><object width="425" height="355" class="youtube-player"><param name="movie" value="http://www.youtube.com/v/{{videoID}}?version=3&autohide=1&showinfo=0"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.youtube.com/v/{{videoID}}?version=3&autohide=1&showinfo=0" type="application/x-shockwave-flash" allowscriptaccess="always" width="425" height="355"></embed></object></p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h3><span>Trailer</span></h3><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /><a href="http://www.youtube.com/watch?v={{videoID}}"><img src="http://img.youtube.com/vi/{{videoID}}/0.jpg" width="480" height="360" alt="{{title}}" />View on Youtube</a></object></p></article></li>'),
+		
+		initialize: function() {
+			_.bindAll(this, 'render');
+			this.model.bind('change', this.render, this);
+		},
+		
+		render: function() {
+			var model = this.model.toJSON(),
+			result,
+			matches = model.trailer.match(/youtube\.com\/watch\?v=([a-z0-9\-_]+)/i);
+			
+			model.videoID = matches[1];
+			
+			result = this.template(model);
+			$(this.el).attr('data-theme', 'c').html(result);
+			
+			$('.youtube-player').fitVids();
+			
+			return this;
+		}
+	});
+	
+	App.MultiFilmView = Backbone.View.extend({
+		tagName: 'article',
+		
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Synopsis</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p><h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /><a href="http://www.youtube.com/watch?v={{videoID}}"><img src="http://img.youtube.com/vi/{{videoID}}/0.jpg" width="480" height="360" alt="{{title}}" />View on Youtube</a></object></p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -270,6 +296,7 @@ $(document).bind("mobileinit", function(){
 				relatedFilms,
 				filmCollection,
 				filmsArray = [],
+				filmView;
 				modelData = this.model.toJSON();
 			
 			modelData.prettyDate = new Date(modelData.date.replace(/-/g, '/')).strftime('%A, %d %B - %H:%M');
@@ -293,9 +320,11 @@ $(document).bind("mobileinit", function(){
 				
 				filmCollection = new App.FilmList;
 				
+				filmView = (relatedFilms.length > 1) ? App.MultiFilmView : App.FilmView;
+				
 				if (!App.isPageRendered('event-' + this.model.id)) $($.mobile.activePage).find('[data-role="content"]').append('<ul class="related-films" data-role="listview" data-theme="c"></ul>');
 				
-				if (!App.isPageRendered('event-' + this.model.id) && relatedFilms.length > 1) $($.mobile.activePage).find('.related-films').before('<h2>Filmes</h2>');
+				//if (!App.isPageRendered('event-' + this.model.id) && relatedFilms.length > 1) $($.mobile.activePage).find('.related-films').before('<h3>Filmes</h2>');
 				
 				if (!App.isPageRendered('event-' + this.model.id)) {
 					_.each(relatedFilms, function(item) {
@@ -306,7 +335,7 @@ $(document).bind("mobileinit", function(){
 					filmCollection.add(filmsArray);
 					filmCollection.fetch({dataType: 'jsonp', success: function() {
 						filmCollection.each(function(film) {
-							var view = new App.FilmView( {model: film} );
+							var view = new filmView( {model: film} );
 							$($.mobile.activePage).find('.related-films').append(view.render().el);
 						});
 					}});
