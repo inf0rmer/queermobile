@@ -3767,8 +3767,6 @@ $(document).bind("mobileinit", function(){
 				this.enableAddButton();
 			}
 			
-			$('div[data-role="page"]').page();
-			
 			$.mobile.changePage($('#event-' + this.model.id), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			// Get related films
 			if (this.model.get('type').toLowerCase() == 'film') {				
@@ -3835,11 +3833,12 @@ $(document).bind("mobileinit", function(){
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-			
+			/*
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
 			});
+			*/
 		},
 		
 		render: function() {
@@ -3856,7 +3855,7 @@ $(document).bind("mobileinit", function(){
 			
 			date.locale = 'pt-pt';
 			
-			$(this.el).empty();
+			$(el).empty();
 			
 			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
 			
