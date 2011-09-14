@@ -298,7 +298,7 @@ $(document).bind("mobileinit", function(){
 		
 		tagName: 'li',
 		
-	className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
+		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
 		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/dates/{{linkDate}}" class="ui-link-inherit">{{titleDate}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
@@ -510,9 +510,7 @@ $(document).bind("mobileinit", function(){
 		initialize: function() {
 			var that = this;
 			
-			//$(this.el).empty();
-			
-			console.log('init');
+			$(this.el).empty();
 			
 			_.bindAll(this,'addOne','render');
 			App.MyEvents.bind('reset', this.render);
@@ -548,14 +546,20 @@ $(document).bind("mobileinit", function(){
 					}));
 				}
 				
-				view.template = Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>'),
+				view.el.className = '';
+				view.template = Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>');
 				
 				fragment.appendChild(view.render().el);
 			});
 			
 			$el.append(fragment);
-			//console.log($el.listview);
-			//if ($el.listview) $el.listview();
+			
+			try {
+				$el.listview('refresh');
+			} 
+			catch (err) {
+			}
+			
 		},
 		
 		addOne: function(event) {
@@ -646,9 +650,7 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showMyEvents: function() {
-			var view = App.cachedViews['showMyEvents'] || new App.MyEventListView;
-			
-			App.cachedViews['showMyEvents'] = view;
+			new App.MyEventListView;
 			
 			App.reapplyStyles($('#myAgenda'));
 			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
