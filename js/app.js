@@ -222,7 +222,7 @@ $(document).bind("mobileinit", function(){
 			result,
 			matches = model.trailer.match(/youtube\.com\/watch\?v=([a-z0-9\-_]+)/i);
 			
-			model.videoID = matches[1];
+			model.videoID = (matches && matches.length) ? matches[1] : undefined;
 			
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
@@ -409,7 +409,6 @@ $(document).bind("mobileinit", function(){
 			$('div[data-role="page"]').page();
 			
 			$.mobile.changePage($('#event-' + this.model.id), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-			
 			// Get related films
 			if (this.model.get('type').toLowerCase() == 'film') {				
 				relatedFilms = this.model.get('related').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
@@ -420,8 +419,6 @@ $(document).bind("mobileinit", function(){
 				filmView = (relatedFilms.length > 1) ? App.MultiFilmView : App.FilmView;
 				
 				if (!App.isPageRendered('event-' + this.model.id)) $($.mobile.activePage).find('[data-role="content"]').append('<ul class="related-films" data-role="listview" data-theme="c"></ul>');
-				
-				//if (!App.isPageRendered('event-' + this.model.id) && relatedFilms.length > 1) $($.mobile.activePage).find('.related-films').before('<h3>Filmes</h2>');
 				
 				if (!App.isPageRendered('event-' + this.model.id)) {
 					_.each(relatedFilms, function(item) {
@@ -529,7 +526,6 @@ $(document).bind("mobileinit", function(){
 				
 				return template(obj);
 			},
-	//		liTemplate = template: Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>'),
 			fragment = document.createDocumentFragment();
 			
 			$(this.el).empty();
@@ -551,7 +547,6 @@ $(document).bind("mobileinit", function(){
 				view.template = Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>'),
 				
 				fragment.appendChild(view.render().el);
-				console.log(view.render().el);
 			});
 			
 			$el.append(fragment);
