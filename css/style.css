@@ -217,6 +217,10 @@ div[data-role="header"] {
 	padding: 1.3em 15px;
 }
 
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+	padding-left: 36px;
+}
+
 .ui-body-c {
 	background: rgb(225, 225, 225);
 	color: #222;

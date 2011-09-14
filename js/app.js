@@ -265,7 +265,7 @@ $(document).bind("mobileinit", function(){
 		
 		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
 		
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /> <a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -275,6 +275,8 @@ $(document).bind("mobileinit", function(){
 		render: function() {
 			var model = this.model.toJSON(),
 			result;
+			
+			model.imageType = model.type.toLowerCase().replace(/ /g, '-');
 			
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
@@ -545,7 +547,7 @@ $(document).bind("mobileinit", function(){
 				}
 				
 				view.el.className = '';
-				view.template = Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>');
+				view.template = Handlebars.compile('<img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>');
 				
 				fragment.appendChild(view.render().el);
 			});
