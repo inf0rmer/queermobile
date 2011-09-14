@@ -88,6 +88,7 @@ html { -webkit-text-size-adjust:none; }
 	-webkit-border-radius:7px;
 	background:rgba(0,0,0,0.12);
 	*/
+	background: transparent;
 	color:#555;
 	-webkit-box-shadow:0 1px 0 #fff;
 	font-size:13px;
