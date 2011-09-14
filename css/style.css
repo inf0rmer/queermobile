@@ -221,6 +221,10 @@ div[data-role="header"] {
 	padding-left: 36px;
 }
 
+.ui-li-thumb, .ui-li-icon, .ui-li-content {
+	margin-top: 2px;
+}
+
 .ui-body-c {
 	background: rgb(225, 225, 225);
 	color: #222;
