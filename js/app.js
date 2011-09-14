@@ -210,7 +210,7 @@ $(document).bind("mobileinit", function(){
 	App.FilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>Sinopse</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
