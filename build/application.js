@@ -3814,6 +3814,8 @@ $(document).bind("mobileinit", function(){
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
+			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
@@ -3880,6 +3882,8 @@ $(document).bind("mobileinit", function(){
 			this.spinner = new Spinner(App.spinnerOpts).spin();
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
+			
+			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
 			
 			App.MyEvents.fetch();
 		},
@@ -3961,6 +3965,8 @@ $(document).bind("mobileinit", function(){
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
+			$.mobile.changePage($('#dateSelection'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			
 			App.Dates.fetch({dataType: App.method});
 		},
 		
@@ -4027,33 +4033,26 @@ $(document).bind("mobileinit", function(){
 			new App.MyEventListView;
 			
 			App.reapplyStyles($('#myAgenda'));
-			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
 		},
 		
 		showDatesPage: function() {
-			var view = App.cachedViews['dateList'] || new App.DateListView,
-			transition = App.transition || 'slide';
+			var view = App.cachedViews['dateList'] || new App.DateListView;
 			
 			App.cachedViews['dateList'] = view;
 			
 			App.reapplyStyles($('#dateSelection'));
-			$.mobile.changePage($('#dateSelection'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
 		},
 		
 		showDate: function(date) {	
-			var view = App.cachedViews['eventListView-' + date] || new App.EventListView(date),
-			transition = App.transition || 'slide';
+			var view = App.cachedViews['eventListView-' + date] || new App.EventListView(date);
 			
 			App.cachedViews['eventListView-' + date] = view;
 			
 			App.reapplyStyles($('#showDate'));
-			$.mobile.changePage($('#showDate'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
 		},
 		
 		showEvent: function(id) {
 			var event = App.Events.get(id);
-			
-			//App.transition = 'slide';
 			
 			if (!event) {
 				event = new App.Event({id : id});
