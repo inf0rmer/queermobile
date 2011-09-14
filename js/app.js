@@ -112,7 +112,7 @@ $(document).bind("mobileinit", function(){
 			var ids = this.pluck('id');
 			
 			_.each(ids, function(item, index) {
-				ids[index] = item.trim();
+				ids[index] = item.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 			});
 			
 			ids = ids.join(',');
