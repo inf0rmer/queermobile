@@ -30,7 +30,7 @@ $(document).bind("mobileinit", function(){
 	//Define App namespace
 	window.App = {};
 	
-	App.method = (window.location.href.indexOf('queerlisboa.pt') != -1) ? 'json' : 'jsonp';
+	App.method = 'jsonp';
 	
 	App.reverseTransition = false;
 	
