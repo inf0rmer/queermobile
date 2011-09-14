@@ -350,18 +350,14 @@ $(document).bind("mobileinit", function(){
 			this.render();
 		},
 		
-		disableAddButton: function() {
-			if ($('.removeFromMyList').length) return false;
-			
+		disableAddButton: function() {			
 			$(this.el).find('.addToMyList').parents('.ui-btn').remove();
 			$(this.el).find('.addToMyList').remove();
 			$(this.el).find('dl').after('<button class="removeFromMyList" data-theme="f" data-icon="minus">Remover da minha agenda</button>');
 			$(this.el).find('.removeFromMyList').button();
 		},
 		
-		enableAddButton: function() {
-			if ($('.addToMyList').length) return false;
-			
+		enableAddButton: function() {		
 			$(this.el).find('.removeFromMyList').parents('.ui-btn').remove();
 			$(this.el).find('.removeFromMyList').remove();
 			$(this.el).find('dl').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar à minha agenda</button>');
@@ -575,11 +571,7 @@ $(document).bind("mobileinit", function(){
 	App.DateListView = Backbone.View.extend({
 		
 		el: $('#dateList'),
-		
-		events: {
-			//'change': 'changeSelected'
-		},
-		
+
 		initialize: function() {
 			var that = this;
 			_.bindAll(this,'addOne','render');
