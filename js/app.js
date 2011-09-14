@@ -29,6 +29,8 @@ $(document).bind("mobileinit", function(){
 	window.App = {};
 	
 	App.reverseTransition = false;
+	
+	App.cachedViews = {};
 		
 	//Define Models
 	App.Event = Backbone.Model.extend({
@@ -612,7 +614,9 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showMyEvents: function() {
-			var view = new App.MyEventListView();
+			var view = App.cachedViews['showMyEvents'] || new App.MyEventListView;
+			
+			App.cachedViews['showMyEvents'] = view;
 			
 			App.reapplyStyles($('#myAgenda'));
 			$.mobile.changePage($('#myAgenda'), {changeHash: false, reverse: App.reverseTransition});
@@ -621,7 +625,9 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showDatesPage: function() {
-			App.Views.DateList = new App.DateListView;
+			var view = App.cachedViews['dateList'] || new App.DateListView;
+			
+			App.cachedViews['dateList'] = view;
 			
 			App.reapplyStyles($('#dateSelection'));
 			$.mobile.changePage($('#dateSelection'), {changeHash: false, reverse: App.reverseTransition});
@@ -630,7 +636,9 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showDate: function(date) {	
-			var view = new App.EventListView(date);
+			var view = App.cachedViews['eventListView'] || new App.EventListView(date);
+			
+			App.cachedViews['eventListView'] = view;
 			
 			App.reapplyStyles($('#showDate'));
 			$.mobile.changePage($('#showDate'), {changeHash: false, reverse: App.reverseTransition});
