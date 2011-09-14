@@ -44,7 +44,7 @@ $(document).bind("mobileinit", function(){
 			}
 		},
 		
-		urlRoot: "http://queerlisboa.pt/api/events/jsonp/get/",
+		urlRoot: "http://queerlisboa.pt/api/events/json/get/",
 		
 		setTitle : function(newTitle) {
 			this.save({
@@ -118,7 +118,7 @@ $(document).bind("mobileinit", function(){
 			
 			ids = ids.join(',');
 			
-			return 'http://queerlisboa.pt/api/films/jsonp/get/' + ids;
+			return 'http://queerlisboa.pt/api/films/json/get/' + ids;
 		},
 		
 		parse : function(resp) {
@@ -136,7 +136,7 @@ $(document).bind("mobileinit", function(){
 		
 		model: App.Event,
 		
-		url: 'http://queerlisboa.pt/api/programme/jsonp/get/',
+		url: 'http://queerlisboa.pt/api/programme/json/get/',
 		
 		parse : function(resp) {
 			var nodeArray = [];	
@@ -166,7 +166,7 @@ $(document).bind("mobileinit", function(){
 
 		model: App.Date,
 		
-		url: 'http://queerlisboa.pt/api/dates/jsonp/get/',
+		url: 'http://queerlisboa.pt/api/dates/json/get/',
 		
 		parse : function(resp) {
 			var dateArray = [],
@@ -427,7 +427,7 @@ $(document).bind("mobileinit", function(){
 					});
 					
 					filmCollection.add(filmsArray);
-					filmCollection.fetch({dataType: 'jsonp', success: function() {
+					filmCollection.fetch({dataType: 'json', success: function() {
 						filmCollection.each(function(film) {
 							var view = new filmView( {model: film} );
 							$($.mobile.activePage).find('.related-films').append(view.render().el);
@@ -460,7 +460,7 @@ $(document).bind("mobileinit", function(){
 			$(this.el).find('.ui-loader').show();
 			
 			App.Events.fetch({
-				dataType: 'jsonp',
+				dataType: 'json',
 				url: App.Events.url + date
 			});
 		},
@@ -590,7 +590,7 @@ $(document).bind("mobileinit", function(){
 			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
 			$(this.el).find('.ui-loader').show();
 			
-			App.Dates.fetch({dataType: 'jsonp'});
+			App.Dates.fetch({dataType: 'json'});
 		},
 		
 		render: function() {
@@ -685,7 +685,7 @@ $(document).bind("mobileinit", function(){
 			if (!event) {
 				event = new App.Event({id : id});
 				
-				event.fetch({dataType: 'jsonp', success: function() {
+				event.fetch({dataType: 'json', success: function() {
 					new App.ShowEventView({model: event});
 				}});
 			} else {
