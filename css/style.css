@@ -94,6 +94,10 @@ textarea.contenteditable {-webkit-appearance: none;}
    Author: Bruno Abrantes
 */
 
+body {
+	background: rgb(225, 225, 225);
+}
+
 div[data-role="header"] {
 	background: #E76588;
 }
@@ -131,6 +135,10 @@ div[data-role="header"] {
 	background-image:     -ms-linear-gradient(top, #97445d, #783548); /* IE10 */
 	background-image:      -o-linear-gradient(top, #97445d, #783548); /* Opera 11.10+ */
 	background-image:         linear-gradient(top, #97445d, #783548);
+}
+
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+	padding: 1em 15px;
 }
 
 .ui-body-c {
