@@ -494,12 +494,11 @@ $(document).bind("mobileinit", function(){
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-			/*
+
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
 			});
-			*/
 		},
 		
 		render: function() {
@@ -533,7 +532,7 @@ $(document).bind("mobileinit", function(){
 				fragment.appendChild(view.render().el);
 			});
 			
-			$el.append(fragment);
+			//$el.append(fragment);
 		},
 		
 		addOne: function(event) {
