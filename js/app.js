@@ -397,8 +397,6 @@ $(document).bind("mobileinit", function(){
 				relatedFilms = this.model.get('related').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				relatedFilms = relatedFilms.split(',');
 				
-				alert(relatedFilms.length);
-				
 				filmCollection = new App.FilmList;
 				
 				filmView = (relatedFilms.length > 1) ? App.MultiFilmView : App.FilmView;
@@ -415,7 +413,6 @@ $(document).bind("mobileinit", function(){
 					filmCollection.add(filmsArray);
 					filmCollection.fetch({dataType: 'jsonp', success: function() {
 						filmCollection.each(function(film) {
-							alert('create film view');
 							var view = new filmView( {model: film} );
 							$($.mobile.activePage).find('.related-films').append(view.render().el);
 						});
