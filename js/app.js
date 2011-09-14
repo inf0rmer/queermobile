@@ -317,7 +317,7 @@ $(document).bind("mobileinit", function(){
 			
 			modelData.date = modelData.date.substr(0, modelData.date.indexOf(' '));
 			
-			date = new Date(modelData.date);
+			date = Date.parseExact(modelData.date);
 			
 			alert(modelData.date);
 			alert(date);
