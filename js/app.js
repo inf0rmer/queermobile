@@ -223,7 +223,7 @@ $(document).bind("mobileinit", function(){
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
 			
-			$('.youtube-video').fitVids();
+			//$('.youtube-video').fitVids();
 			
 			return this;
 		}
@@ -249,7 +249,7 @@ $(document).bind("mobileinit", function(){
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
 			
-			$('.youtube-video').fitVids();
+			//$('.youtube-video').fitVids();
 			
 			return this;
 		}
@@ -684,4 +684,14 @@ $(function() {
 	$('[data-rel="back"], .back').live('click', function() {
 		App.reverseTransition = true;
 	});
+	
+	$(window).resize(function() {
+      var newHeight = $(window).width()*9/16;
+      var oldHeight = $('div.youTubePlayer:first').attr("height");
+      if (newHeight > 500)
+          newHeight = 500;
+      if (newHeight = oldHeight)
+          return;
+      $('.youtube-video').attr("height", newHeight);
+    });
 });

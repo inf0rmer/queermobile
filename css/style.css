@@ -183,6 +183,10 @@ dd {
 	font-weight: bold;
 }
 
+.youtube-video {
+	max-width: 100%;
+}
+
 .event-page .ui-content {
 	text-align: center;
 	font-family: Georgia, serif;
