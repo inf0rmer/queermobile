@@ -152,7 +152,11 @@ $(document).bind("mobileinit", function(){
 		
 		model: App.Event,
 		
-		localStorage: new Store('events')
+		localStorage: new Store('events'),
+		
+		comparator: function(event) {
+			return event.get('date');
+		}
 	
 	});
 	App.MyEvents = new App.MyEventList;
@@ -461,7 +465,7 @@ $(document).bind("mobileinit", function(){
 			
 			$(this.el).empty();
 			
-			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%d/%m/%Y'));
+			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
 			
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
@@ -504,23 +508,24 @@ $(document).bind("mobileinit", function(){
 		render: function() {
 			var $el = $(this.el),
 			renderDivider = function(obj) {
-				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
+				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{date}} - {{hour}}</li>');
 				
 				return template(obj);
-			},
-			date = new Date(this.date);
-			
-			date.locale = 'pt-pt';
+			};
 			
 			$(this.el).empty();
 			
 			App.MyEvents.each(function(event) {
 				var view = new App.EventView({model: event}),
-				previousEvent = App.MyEvents.at(App.Events.indexOf(event) - 1);
+				previousEvent = App.MyEvents.at(App.Events.indexOf(event) - 1),
+				date = event.get('date').substr(0, event.get('date').indexOf(' '));
+				
+				date = new Date(Date.parse(date));
 				
 				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {
 					$el.append(renderDivider({
-						hour: event.get('hour')
+						hour: event.get('hour'),
+						date: date.strftime('%a, %d %b')
 					}));
 				}
 				
@@ -623,7 +628,7 @@ $(document).bind("mobileinit", function(){
 			App.reapplyStyles($('#myAgenda'));
 			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
 			
-			App.transition = 'slideup';
+			//App.transition = 'slideup';
 			App.reverseTransition = true;
 		},
 		
@@ -636,7 +641,7 @@ $(document).bind("mobileinit", function(){
 			App.reapplyStyles($('#dateSelection'));
 			$.mobile.changePage($('#dateSelection'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
 			
-			App.transition = 'slide';
+			//App.transition = 'slide';
 			App.reverseTransition = false;
 		},
 		
@@ -649,14 +654,14 @@ $(document).bind("mobileinit", function(){
 			App.reapplyStyles($('#showDate'));
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
 			
-			App.transition = 'slide';
+			//App.transition = 'slide';
 			App.reverseTransition = false;
 		},
 		
 		showEvent: function(id) {
 			var event = App.Events.get(id);
 			
-			App.transition = 'slide';
+			//App.transition = 'slide';
 			
 			if (!event) {
 				event = new App.Event({id : id});
@@ -694,5 +699,5 @@ $(function() {
       if (newHeight = oldHeight)
           return;
       $('.youtube-video').attr("height", newHeight);
-    });
+    });    
 });
