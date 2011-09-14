@@ -18,9 +18,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="apple-touch-startup-image" href="img/l/splash.png">
   <meta http-equiv="cleartype" content="on">
-  <link rel="stylesheet" href="css/jquery.mobile-1.0b3.css" />
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/libs/modernizr-custom.js"></script>
+  <link rel="stylesheet" href="build/application.css">
   
 </head>
 
@@ -60,38 +58,15 @@
 			</ul>
 		</div>
 	</div>
-
-  <script src="js/libs/jquery-1.6.2.min.js"></script>
   
-  <script src="js/libs/underscore.min.js"></script>
-  <script src="js/libs/json2.js"></script>
-  
-  <script src="js/libs/backbone-0.5.3.js"></script>
-  
-  <script src="js/libs/backbone-localstorage.js"></script>
-  
-  <script src="js/libs/handlebars.js"></script>
-  
-  <script src="js/libs/strftime.min.js"></script>
-  
-  <script src="js/libs/fitvids.js"></script>
-  
-  <script src="js/libs/iso8601.min.js"></script>
-  
-  <script src="js/app.js"></script>
-  
-  <script src="js/libs/jquery.mobile-1.0b3.js"></script>
-  
+  <script src="build/application-min.js"></script
+    
   <script type="text/javascript">
 	if ('standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion)) {
 		document.write('<link rel="stylesheet" href="css/add2home.css">');
 		document.write('<script type="application/javascript" src="js/libs/add2home.js"><\/s' + 'cript>');
 	}
   </script>
-  
-  <!-- scripts concatenated and minified via ant build script -->
-  <script src="js/mylibs/helper.js"></script>
-  <!-- end concatenated and minified scripts-->
   
   <script>
     MBP.scaleFix();
