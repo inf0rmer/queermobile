@@ -531,6 +531,12 @@ $(document).bind("mobileinit", function(){
 			
 			$(this.el).empty();
 			
+			// Add a message in case there are no events yet
+			if (!App.MyEvents.length) {
+				$(this.el).html('<p>Visite a página de um evento e adicione-o à sua agenda, para poder construir o seu calendário personalizado!</p>')
+			}
+			
+			
 			App.MyEvents.each(function(event) {
 				var view = new App.EventView({model: event}),
 				previousEvent = App.MyEvents.at(App.MyEvents.indexOf(event) - 1),
