@@ -3361,13 +3361,15 @@ window.addToHomeConfig = {
 $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
-	$.mobile.loadingMessage = 'A carregar...';
+	$.mobile.loadingMessage = 'A carregar...';	
 });
 
 (function() {
 	$('body').removeClass('visuallyhidden').hide().fadeIn('fast');
 	//Define App namespace
 	window.App = {};
+	
+	App.method = (window.location.href.indexOf('queerlisboa.pt') != -1) ? 'json' : 'jsonp';
 	
 	App.reverseTransition = false;
 	
@@ -3383,7 +3385,7 @@ $(document).bind("mobileinit", function(){
 			}
 		},
 		
-		urlRoot: "http://queerlisboa.pt/api/events/json/get/",
+		urlRoot: "http://queerlisboa.pt/api/events/" + App.method + "/get/",
 		
 		setTitle : function(newTitle) {
 			this.save({
@@ -3457,7 +3459,7 @@ $(document).bind("mobileinit", function(){
 			
 			ids = ids.join(',');
 			
-			return 'http://queerlisboa.pt/api/films/json/get/' + ids;
+			return 'http://queerlisboa.pt/api/films/' + App.method + '/get/' + ids;
 		},
 		
 		parse : function(resp) {
@@ -3475,7 +3477,7 @@ $(document).bind("mobileinit", function(){
 		
 		model: App.Event,
 		
-		url: 'http://queerlisboa.pt/api/programme/json/get/',
+		url: 'http://queerlisboa.pt/api/programme/' + App.method + '/get/',
 		
 		parse : function(resp) {
 			var nodeArray = [];	
@@ -3505,7 +3507,7 @@ $(document).bind("mobileinit", function(){
 
 		model: App.Date,
 		
-		url: 'http://queerlisboa.pt/api/dates/json/get/',
+		url: 'http://queerlisboa.pt/api/dates/' + App.method + '/get/',
 		
 		parse : function(resp) {
 			var dateArray = [],
@@ -3766,7 +3768,7 @@ $(document).bind("mobileinit", function(){
 					});
 					
 					filmCollection.add(filmsArray);
-					filmCollection.fetch({dataType: 'json', success: function() {
+					filmCollection.fetch({dataType: App.method, success: function() {
 						filmCollection.each(function(film) {
 							var view = new filmView( {model: film} );
 							$($.mobile.activePage).find('.related-films').append(view.render().el);
@@ -3796,7 +3798,7 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('add', this.addOne);
 			
 			App.Events.fetch({
-				dataType: 'json',
+				dataType: App.method,
 				url: App.Events.url + date
 			});
 		},
@@ -3920,7 +3922,7 @@ $(document).bind("mobileinit", function(){
 			App.Dates.bind('reset', this.render);
 			App.Dates.bind('add', this.addOne);
 			
-			App.Dates.fetch({dataType: 'json'});
+			App.Dates.fetch({dataType: App.method});
 		},
 		
 		render: function() {
@@ -4015,7 +4017,7 @@ $(document).bind("mobileinit", function(){
 			if (!event) {
 				event = new App.Event({id : id});
 				
-				event.fetch({dataType: 'json', success: function() {
+				event.fetch({dataType: App.method, success: function() {
 					new App.ShowEventView({model: event});
 				}});
 			} else {
@@ -4031,6 +4033,7 @@ $(document).bind("mobileinit", function(){
 })();
 
 $(function() {
+
 	setTimeout(function() {
 		Backbone.history.start();
 	}, 200);
