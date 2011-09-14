@@ -640,9 +640,6 @@ $(document).bind("mobileinit", function(){
 			
 			App.reapplyStyles($('#dateSelection'));
 			$.mobile.changePage($('#dateSelection'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
-			
-			//App.transition = 'slide';
-			App.reverseTransition = false;
 		},
 		
 		showDate: function(date) {	
@@ -653,9 +650,6 @@ $(document).bind("mobileinit", function(){
 			
 			App.reapplyStyles($('#showDate'));
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: transition, reverse: App.reverseTransition});
-			
-			//App.transition = 'slide';
-			App.reverseTransition = false;
 		},
 		
 		showEvent: function(id) {
@@ -690,7 +684,7 @@ $(function() {
 		App.reverseTransition = true;
 	});
 	
-	$('.nav-button').live('click', function() {
+	$('a').live('click', function() {
 		
 		App.transition = $(this).attr('data-transition') || 'slide';
 		App.reverseTransition = ($(this).attr('data-direction') == 'reverse');
