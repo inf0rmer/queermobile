@@ -379,7 +379,9 @@ $(document).bind("mobileinit", function(){
 			.attr('data-theme', 'c')
 			.attr('data-role', 'page')
 			
-			modelData.date = modelData.date.substr(0, modelData.date.indexOf(' '));
+			modelData.date = modelData.date.substr(0, modelData.date.indexOf('+'));
+			
+			alert(new Date('2011-09-16 17:00:00'));
 			
 			date = new Date(Date.parse(modelData.date));
 			
@@ -387,9 +389,13 @@ $(document).bind("mobileinit", function(){
 			
 			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
 			
-			modelData.prettyVenue = modelData.venue.main;
+			if (modelData.venue.main) {
+				modelData.prettyVenue = modelData.venue.main;
+				if (modelData.venue.sub && modelData.venue.sub != null) modelData.prettyVenue += ' - ' + modelData.venue.sub;
+			} else {
+				modelData.prettyVenue = (modelData.venue.sub && modelData.venue.sub != null) ? modelData.venue.sub : 'Desconhecido';
+			}
 			
-			if (modelData.venue.sub && modelData.venue.sub != null) modelData.prettyVenue += ' - ' + modelData.venue.sub;
 			
 			if (!App.isPageRendered('event-' + this.model.id)) {
 				$(this.el).append(this.template(modelData));
@@ -529,7 +535,7 @@ $(document).bind("mobileinit", function(){
 			App.MyEvents.each(function(event) {
 				var view = new App.EventView({model: event}),
 				previousEvent = App.MyEvents.at(App.MyEvents.indexOf(event) - 1),
-				date = event.get('date').substr(0, event.get('date').indexOf(' '));
+				date = event.get('date').substr(0, event.get('date').indexOf('+'));
 				
 				date = new Date(Date.parse(date));
 				
