@@ -412,6 +412,7 @@ $(document).bind("mobileinit", function(){
 					filmCollection.add(filmsArray);
 					filmCollection.fetch({dataType: 'jsonp', success: function() {
 						filmCollection.each(function(film) {
+							alert('create film view');
 							var view = new filmView( {model: film} );
 							$($.mobile.activePage).find('.related-films').append(view.render().el);
 						});
