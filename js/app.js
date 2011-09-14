@@ -512,6 +512,8 @@ $(document).bind("mobileinit", function(){
 			
 			//$(this.el).empty();
 			
+			console.log('init');
+			
 			_.bindAll(this,'addOne','render');
 			App.MyEvents.bind('reset', this.render);
 			App.MyEvents.bind('add', this.addOne);
@@ -524,7 +526,7 @@ $(document).bind("mobileinit", function(){
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading">{{date}} - {{hour}}</li>');
 				
-				return template(obj);
+				return $(template(obj)).get(0);
 			},
 			fragment = document.createDocumentFragment();
 			
@@ -537,8 +539,10 @@ $(document).bind("mobileinit", function(){
 				
 				date = new Date(Date.parse(date));
 				
-				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {
-					$el.append(renderDivider({
+				if (previousEvent) console.log(previousEvent.get('hour'), previousEvent.get('title'), event.get('hour'));
+				
+				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {					
+					fragment.appendChild(renderDivider({
 						hour: event.get('hour'),
 						date: date.strftime('%a, %d %b')
 					}));
@@ -550,6 +554,8 @@ $(document).bind("mobileinit", function(){
 			});
 			
 			$el.append(fragment);
+			//console.log($el.listview);
+			//if ($el.listview) $el.listview();
 		},
 		
 		addOne: function(event) {
