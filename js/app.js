@@ -681,14 +681,6 @@ $(document).bind("mobileinit", function(){
 		}
 	}
 	
-	App.reapplyStyles = function($el) {
-		//$el.find('ul[data-role="listview"]').listview();
-	   // $el.find('div[data-role="fieldcontain"]').fieldcontain();
-    	$el.find('button[data-role="button"]').button();
-	    //$el.find('input,textarea').textinput();
-    	$el.page();
-	}
-	
 	// Instantiate App
 	App.Views = {};
 	
@@ -704,7 +696,6 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		home: function() {			
-			App.reapplyStyles($('#home'));
 			$.mobile.changePage($('#home'), {changeHash: false, reverse: App.reverseTransition});
 			
 			App.reverseTransition = false;
@@ -713,7 +704,6 @@ $(document).bind("mobileinit", function(){
 		showMyEvents: function() {
 			new App.MyEventListView;
 			
-			App.reapplyStyles($('#myAgenda'));
 		},
 		
 		showDatesPage: function() {
@@ -724,7 +714,6 @@ $(document).bind("mobileinit", function(){
 			
 			App.cachedViews['dateList'] = view;
 			
-			App.reapplyStyles($('#dateSelection'));
 		},
 		
 		showDate: function(date) {	
@@ -735,7 +724,6 @@ $(document).bind("mobileinit", function(){
 			
 			App.cachedViews['eventListView-' + date] = view;
 			
-			App.reapplyStyles($('#showDate'));
 		},
 		
 		showEvent: function(id) {
