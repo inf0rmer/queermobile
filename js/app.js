@@ -15,7 +15,8 @@ Date.ext.locales['pt-pt'] = {
 window.addToHomeConfig = {
 	message		: 'pt_pt',
 	animationIn	: 'fade',
-	touchIcon 	: true
+	touchIcon 	: true,
+	lifespan	: 10000
 }
 
 $(document).bind("mobileinit", function(){
@@ -393,7 +394,7 @@ $(document).bind("mobileinit", function(){
 			
 			// Get related films
 			if (this.model.get('type').toLowerCase() == 'film') {				
-				relatedFilms = this.model.get('related').trim();
+				relatedFilms = this.model.get('related').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 				relatedFilms = relatedFilms.split(',');
 				
 				alert(relatedFilms.length);
