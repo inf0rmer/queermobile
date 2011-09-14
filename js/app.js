@@ -13,7 +13,7 @@ Date.ext.locales['pt-pt'] = {
 
 // Add2Home config options
 window.addToHomeConfig = {
-	message		: pt-pt,
+	message		: 'pt_pt',
 	animationIn	: 'fade',
 	touchIcon 	: true
 }
