@@ -206,7 +206,7 @@ $(document).bind("mobileinit", function(){
 	App.FilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>Synopsis</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -232,7 +232,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><object class="youtube-video" type="application/x-shockwave-flash" data="http://www.youtube.com/v/{{videoID}}" width="480" height="360"><param name="movie" value="http://www.youtube.com/v/{{videoID}}" /><param name="quality" value="high" /><param name="allowFullScreen" value="true" /></object>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
