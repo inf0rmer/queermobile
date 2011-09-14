@@ -84,9 +84,11 @@ html { -webkit-text-size-adjust:none; }
 	text-align:center;
 	text-indent:1px;
 	font-size:14px;
+	/*
 	-webkit-border-radius:7px;
 	background:rgba(0,0,0,0.12);
-	color:#707070;
+	*/
+	color:#555;
 	-webkit-box-shadow:0 1px 0 #fff;
 	font-size:13px;
 }
