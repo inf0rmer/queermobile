@@ -381,7 +381,7 @@ $(document).bind("mobileinit", function(){
 			
 			modelData.date = modelData.date.substr(0, modelData.date.indexOf('+'));
 			
-			alert(new Date('2011-09-16 17:00:00'));
+			alert(new Date("Mon Feb 07 2011 11:05:00 GMT"));
 			
 			date = new Date(Date.parse(modelData.date));
 			
