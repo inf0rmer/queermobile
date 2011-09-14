@@ -686,7 +686,7 @@ $(function() {
 	});
 	
 	$(window).resize(function() {
-      var newHeight = $(window).width()*9/8,
+      var newHeight = $(window).width()*9/16,
       oldHeight = $('div.youTubePlayer:first').attr("height");
       
       if (newHeight > 500)
