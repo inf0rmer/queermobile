@@ -33,6 +33,7 @@
 		<div data-role="content" id="homeContent" name="homeContent" data-theme="c">			
 			<ul id="homeList" data-role="listview" data-theme="c" class="ui-listview">
 				<li><a href="#/dates" class="ui-link-inherit">Agenda</a></li>
+				<li><a href="#/myagenda" class="ui-link-inherit">A Minha Agenda</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
@@ -67,6 +68,20 @@
 			<p>&copy; 2011 - Bruno Abrantes</p>
 		</div>
 	</div>
+	
+	<div data-role="page" data-theme="c" id="myAgenda">
+		<div data-role="header" id="hdrMain" name="hdrMain">
+			<a href="#/home" data-icon="back" data-theme="a" class="back">Início</a>
+			<h1>A Minha Agenda</h1>
+		</div>
+		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">			
+			<ul id="myEventsList" data-role="listview" data-theme="c" class="ui-listview">
+			</ul>
+		</div>
+		<div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c">
+			<p>&copy; 2011 - Bruno Abrantes</p>
+		</div>
+	</div>
 
   <script src="js/libs/jquery-1.6.2.min.js"></script>
   
@@ -74,6 +89,8 @@
   <script src="js/libs/json2.js"></script>
   
   <script src="js/libs/backbone-0.5.3.js"></script>
+  
+  <script src="js/libs/backbone-localstorage.js"></script>
   
   <script src="js/libs/handlebars.js"></script>
   

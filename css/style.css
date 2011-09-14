@@ -105,18 +105,32 @@ div[data-role="header"] {
 	font-size: .9em;
 }
 
-.ui-btn-active {
-	border: 1px solid 		#000;
-	background: 			#3d3d3d;
+.ui-btn-up-a {
+	border: 1px solid 		#7a3649;
+	background: 			#9d455d;
 	font-weight: bold;
 	color: 					#fff;
 	text-shadow: 0 -1px 1px #000;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#5a5a5a)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient(top, #333, #5a5a5a); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient(top, #333, #5a5a5a); /* FF3.6 */
-	background-image:     -ms-linear-gradient(top, #333, #5a5a5a); /* IE10 */
-	background-image:      -o-linear-gradient(top, #333, #5a5a5a); /* Opera 11.10+ */
-	background-image:         linear-gradient(top, #333, #5a5a5a);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#b6516d), to(#9d455d)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #b6516d, #9d455d); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient(top, #b6516d, #9d455d); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #b6516d, #9d455d); /* IE10 */
+	background-image:      -o-linear-gradient(top, #b6516d, #9d455d); /* Opera 11.10+ */
+	background-image:         linear-gradient(top, #b6516d, #9d455d);
+}
+
+.ui-btn-hover-a, .ui-btn-active {
+	border: 1px solid 		#522431;
+	background: 			#783548;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#97445d), to(#783548)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #97445d, #783548); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient(top, #97445d, #783548); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #97445d, #783548); /* IE10 */
+	background-image:      -o-linear-gradient(top, #97445d, #783548); /* Opera 11.10+ */
+	background-image:         linear-gradient(top, #97445d, #783548);
 }
 
 .ui-body-c {
@@ -174,6 +188,13 @@ dd {
 .event-page .ui-content p {
 	margin: 10px 0;
 	text-align: justify;
+}
+
+.event-page .ui-content img {
+	border: 1px solid #CCC;
+	background: #FFF;
+	padding: 1%;
+	max-width:98%;
 }
 
 .event-page .ui-content ul {

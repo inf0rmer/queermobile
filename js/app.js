@@ -138,6 +138,15 @@ $(document).bind("mobileinit", function(){
 	});	
 	App.Events = new App.EventList;
 	
+	App.MyEventList = Backbone.Collection.extend({
+		
+		model: App.Event,
+		
+		localStorage: new Store('events')
+	
+	});
+	App.MyEvents = new App.MyEventList;
+	
 	App.DateList = Backbone.Collection.extend({
 
 		model: App.Date,
@@ -300,10 +309,39 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-theme="c" data-role="page" class="event-page" id="event-{{id}}"><div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Voltar</a><h1>{{title}}</h1></div><div data-role="content"><dl><dt><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Voltar</a><h1>{{title}}</h1><a href="#" class="addToMyList" data-icon="add">Minha Agenda</a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div>'),
+		
+		events: {
+			'click .addToMyList' 		: 'addToMyList',
+			'click .removeFromMyList' 	: 'removeFromMyList'
+		},
+		
+		addToMyList: function() {
+			if (!App.MyEvents.get(this.model.id)) App.MyEvents.create(this.model.toJSON());
+			
+			this.disableAddButton();
+			return false;
+		},
+		
+		removeFromMyList: function() {
+			if (App.MyEvents.get(this.model.id)) {
+				App.MyEvents.get(this.model.id).destroy();
+			}
+			
+			this.enableAddButton();
+			return false;
+		},
 		
 		initialize: function() {
 			this.render();
+		},
+		
+		disableAddButton: function() {
+			$(this.el).find('.addToMyList').attr('data-icon', 'check').removeClass('addToMyList').addClass('removeFromMyList').find('span.ui-icon').addClass("ui-icon-minus").removeClass("ui-icon-plus");
+		},
+		
+		enableAddButton: function() {
+			$(this.el).find('.removeFromMyList').attr('data-icon', 'add').removeClass('removeFromMyList').addClass('addToMyList').find('span.ui-icon').addClass("ui-icon-plus").removeClass("ui-icon-minus");
 		},
 		
 		render: function() {
@@ -314,6 +352,12 @@ $(document).bind("mobileinit", function(){
 				filmView,
 				modelData = this.model.toJSON(),
 				date;
+			
+			$(this.el)
+			.addClass('event-page')
+			.attr('id', 'event-' + that.model.id)
+			.attr('data-theme', 'c')
+			.attr('data-role', 'page')
 			
 			modelData.date = modelData.date.substr(0, modelData.date.indexOf(' '));
 			
@@ -328,8 +372,11 @@ $(document).bind("mobileinit", function(){
 			if (modelData.venue.sub && modelData.venue.sub != null) modelData.prettyVenue += ' - ' + modelData.venue.sub;
 			
 			if (!App.isPageRendered('event-' + this.model.id)) {
-				$('body').append(this.template(modelData));
+				$(this.el).append(this.template(modelData));
+				$('body').append(this.el);
 			}
+			
+			if (App.MyEvents.get(this.model.id)) this.disableAddButton();
 			
 			$('div[data-role="page"]').page();
 			
@@ -365,6 +412,8 @@ $(document).bind("mobileinit", function(){
 			}
 			
 			App.renderedPages.push('event-' + this.model.id);
+			
+			return this;
 		}
 	});
 	
@@ -372,11 +421,7 @@ $(document).bind("mobileinit", function(){
 	App.EventListView = Backbone.View.extend({
 		
 		el: $('#programmeList'),
-		
-		events: {
-		
-		},
-		
+
 		initialize: function(date) {
 			var that = this;
 			
@@ -389,14 +434,6 @@ $(document).bind("mobileinit", function(){
 			App.Events.fetch({
 				dataType: 'jsonp',
 				url: App.Events.url + date
-			});
-		},
-		
-		refresh: function() {
-			//Fetch programme now
-			App.Events.fetch({
-				dataType: 'jsonp',
-				url: App.Events.url + App.Dates.getSelectedAsURL()
 			});
 		},
 		
@@ -436,6 +473,57 @@ $(document).bind("mobileinit", function(){
 		
 		addAll: function() {
 			App.Events.each(this.addOne);
+		}
+	});
+	
+	App.MyEventListView = Backbone.View.extend({
+		
+		el: $('#myEventsList'),
+
+		initialize: function() {
+			var that = this;
+			
+			_.bindAll(this,'addOne','render');
+			App.MyEvents.bind('reset', this.render);
+			App.MyEvents.bind('add', this.addOne);
+			
+			App.MyEvents.fetch();
+		},
+		
+		render: function() {
+			var $el = $(this.el),
+			renderDivider = function(obj) {
+				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
+				
+				return template(obj);
+			},
+			date = new Date(this.date);
+			
+			date.locale = 'pt-pt';
+			
+			$(this.el).empty();
+			
+			App.MyEvents.each(function(event) {
+				var view = new App.EventView({model: event}),
+				previousEvent = App.MyEvents.at(App.Events.indexOf(event) - 1);
+				
+				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {
+					$el.append(renderDivider({
+						hour: event.get('hour')
+					}));
+				}
+				
+				$el.append(view.render().el);
+			});
+		},
+		
+		addOne: function(event) {
+			var view = new App.EventView( {model: event} );
+			$(this.el).append(view.render().el);
+		},
+		
+		addAll: function() {
+			App.MyEvents.each(this.addOne);
 		}
 	});
 	
@@ -505,17 +593,22 @@ $(document).bind("mobileinit", function(){
 			'/dates'		: 'showDatesPage',
 			'/dates/:date'	: 'showDate',
 			'/events/:id'	: 'showEvent',
+			'/myagenda'		: 'showMyEvents',			
 			'/home'			: 'home'
 		},
 		
-		defaultRoute: function() {
-			//this.home();
-		},
-		
-		home: function() {
-			//jqmobile			
+		home: function() {			
 			App.reapplyStyles($('#home'));
 			$.mobile.changePage($('#home'), {changeHash: false, reverse: App.reverseTransition});
+			
+			App.reverseTransition = false;
+		},
+		
+		showMyEvents: function() {
+			var view = new App.MyEventListView();
+			
+			App.reapplyStyles($('#myAgenda'));
+			$.mobile.changePage($('#myAgenda'), {changeHash: false, reverse: App.reverseTransition});
 			
 			App.reverseTransition = false;
 		},
@@ -555,6 +648,8 @@ $(document).bind("mobileinit", function(){
 	});
 	
 	App.Router = new App.Workspace;
+	
+	App.MyEvents.fetch();
 })();
 
 $(function() {
