@@ -30,6 +30,17 @@ $(document).bind("mobileinit", function(){
 	//Define App namespace
 	window.App = {};
 	
+	App.spinnerOpts = {
+		lines: 10, // The number of lines to draw
+		length: 7, // The length of each line
+	  	width: 2, // The line thickness
+	  	radius: 10, // The radius of the inner circle
+	  	color: '#777', // #rbg or #rrggbb
+	  	speed: 1.6, // Rounds per second
+	  	trail: 60, // Afterglow percentage
+	  	shadow: false // Whether to render a shadow
+	};
+	
 	App.method = 'jsonp';
 	
 	App.reverseTransition = false;
@@ -458,6 +469,10 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
+			this.spinner = new Spinner(App.spinnerOpts).spin();
+			this.spinner.el.className = 'spinner';
+			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
+			
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
@@ -473,6 +488,8 @@ $(document).bind("mobileinit", function(){
 			},
 			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
+			
+			this.spinner.stop();
 			
 			date.locale = 'pt-pt';
 			
@@ -517,6 +534,10 @@ $(document).bind("mobileinit", function(){
 			App.MyEvents.bind('reset', this.render);
 			App.MyEvents.bind('add', this.addOne);
 			
+			this.spinner = new Spinner(App.spinnerOpts).spin();
+			this.spinner.el.className = 'spinner';
+			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
+			
 			App.MyEvents.fetch();
 		},
 		
@@ -528,6 +549,8 @@ $(document).bind("mobileinit", function(){
 				return $(template(obj)).get(0);
 			},
 			fragment = document.createDocumentFragment();
+			
+			this.spinner.stop();
 			
 			$(this.el).empty();
 			
@@ -589,11 +612,17 @@ $(document).bind("mobileinit", function(){
 			App.Dates.bind('reset', this.render);
 			App.Dates.bind('add', this.addOne);
 			
+			this.spinner = new Spinner(App.spinnerOpts).spin();
+			this.spinner.el.className = 'spinner';
+			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
+			
 			App.Dates.fetch({dataType: App.method});
 		},
 		
 		render: function() {
 			var $el = $(this.el);
+			this.spinner.stop();
+			
 			$el.empty();
 			this.addAll();
 		},

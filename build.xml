@@ -5,7 +5,7 @@
 
 <target name="concatenateJS" description="Concatenate all js files">
     <concat destfile="build/application.js">
-        <filelist dir="js" files="libs/jquery-1.6.2.min.js,libs/underscore.min.js,libs/json2.js,libs/backbone-0.5.3.js,libs/backbone-localstorage.js,libs/handlebars.js,libs/strftime.min.js,app.js,libs/jquery.mobile-1.0b3.js,mylibs/helper.js" />
+        <filelist dir="js" files="libs/jquery-1.6.2.min.js,libs/underscore.min.js,libs/json2.js,libs/backbone-0.5.3.js,libs/backbone-localstorage.js,libs/handlebars.js,libs/strftime.min.js,app.js,libs/jquery.mobile-1.0b3.js,mylibs/helper.js,libs/spin.js" />
     </concat>
 </target>
 
