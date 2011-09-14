@@ -26,22 +26,10 @@
 
 <body class="visuallyhidden">
 	
-	<div data-role="page" data-theme="c" id="home">
-		<div data-role="header" id="hdrMain" name="hdrMain">
-			<h1>Queer Lisboa</h1>
-		</div>
-		<div data-role="content" id="homeContent" name="homeContent" data-theme="c">			
-			<ul id="homeList" data-role="listview" data-theme="c" class="ui-listview">
-				<li><a href="#/dates" class="ui-link-inherit">Agenda</a></li>
-				<li><a href="#/myagenda" class="ui-link-inherit">A Minha Agenda</a></li>
-			</ul>
-		</div>
-	</div>
-	
 	<div data-role="page" data-theme="c" id="dateSelection">
 		<div data-role="header" id="hdrMain" name="hdrMain">
-			<a href="#/home" data-icon="home" data-iconpos="notext" data-direction="reverse" data-theme="a" class="back"></a>
-			<h1>Escolher Data</h1>
+			<h1>Queer Lisboa - Agenda</h1>
+			<a href="#/myagenda" data-iconpos="notext" data-icon="grid" data-theme="a" class="ui-btn-right" data-transition="slide"></a>
 		</div>
 		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">			
 			<ul id="dateList" data-role="listview" data-theme="c" class="ui-listview">			
@@ -53,6 +41,7 @@
 		<div data-role="header" id="hdrMain" name="hdrMain">
 			<a data-rel="back" data-iconpos="notext" data-direction="reverse" data-icon="back" data-theme="a"></a>
 			<h1></h1>
+			<a href="#/myagenda" data-iconpos="notext" data-icon="grid" data-theme="a" class="ui-btn-right" data-transition="slide"></a>
 		</div>
 		<div data-role="content" id="programmeContent" name="programmeContent" data-theme="c">			
 			<ul id="programmeList" data-role="listview" data-theme="c" data-filter="true" data-filter-placeholder="Procurar exibições..." data-filter-theme="c" class="ui-listview">			
@@ -62,7 +51,7 @@
 	
 	<div data-role="page" data-theme="c" id="myAgenda">
 		<div data-role="header" id="hdrMain" name="hdrMain">
-			<a href="#/home" data-icon="home" data-iconpos="notext" data-direction="reverse" data-theme="a" class="back"></a>
+			<a href="#/home" data-icon="home" data-iconpos="notext" data-transition="slidedown" data-theme="a" class="back"></a>
 			<h1>A Minha Agenda</h1>
 		</div>
 		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">			
