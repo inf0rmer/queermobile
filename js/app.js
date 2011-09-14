@@ -699,6 +699,9 @@ $(document).bind("mobileinit", function(){
 		showDatesPage: function() {
 			var view = App.cachedViews['dateList'] || new App.DateListView;
 			
+			// transition right now if it is cached 
+			if (App.cachedViews['dateList']) $.mobile.changePage($('#dateSelection'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			
 			App.cachedViews['dateList'] = view;
 			
 			App.reapplyStyles($('#dateSelection'));
@@ -706,6 +709,9 @@ $(document).bind("mobileinit", function(){
 		
 		showDate: function(date) {	
 			var view = App.cachedViews['eventListView-' + date] || new App.EventListView(date);
+			
+			// transition right now if it is cached 
+			if (App.cachedViews['eventListView-' + date]) $.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
 			App.cachedViews['eventListView-' + date] = view;
 			
