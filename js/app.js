@@ -323,7 +323,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><h1>{{title}}</h1><a href="#" class="addToMyList" data-iconpos="notext" data-icon="add"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" class="nav-button" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><h1>{{title}}</h1><a href="#" class="addToMyList" data-iconpos="notext" data-icon="add"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -688,6 +688,13 @@ $(function() {
 	
 	$('[data-rel="back"], .back').live('click', function() {
 		App.reverseTransition = true;
+	});
+	
+	$('.nav-button').live('click', function() {
+		
+		App.transition = $(this).attr('data-transition') || 'slide';
+		App.reverseTransition = ($(this).attr('data-direction') == 'reverse');
+		
 	});
 	
 	$(window).resize(function() {
