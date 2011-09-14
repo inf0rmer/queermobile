@@ -3563,7 +3563,7 @@ $(document).bind("mobileinit", function(){
 	App.FilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>Sinopse</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>Sinopse</span></h3><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h3><span>Trailer</span></h3><iframe height="' + $(window).width()*9/16 + '" width="100%" class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -3589,7 +3589,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 		
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><iframe class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><iframe height="' + $(window).width()*9/16 + '" width="100%" class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 		
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -3702,6 +3702,10 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		initialize: function() {
+			this.spinner = new Spinner(App.spinnerOpts).spin();
+			this.spinner.el.className = 'spinner';
+			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
+			
 			this.render();
 		},
 		
@@ -3730,11 +3734,13 @@ $(document).bind("mobileinit", function(){
 				spinner = new Spinner(App.spinnerOpts).spin(),
 				oldPadding;
 			
+			this.spinner.stop();
+			
 			$(this.el)
 			.addClass('event-page')
 			.attr('id', 'event-' + that.model.id)
 			.attr('data-theme', 'c')
-			.attr('data-role', 'page')
+			.attr('data-role', 'page');
 			
 			date = new Date(modelData.date);
 			
@@ -4111,11 +4117,11 @@ $(function() {
 	
 	$(window).resize(function() {
       var newHeight = $(window).width()*9/16,
-      oldHeight = $('div.youTubePlayer:first').attr("height");
+      oldHeight = $('.youtube-video:first').attr("height");
       
       if (newHeight > 500)
           newHeight = 500;
-      if (newHeight = oldHeight)
+      if (newHeight == oldHeight)
           return;
       $('.youtube-video').attr("height", newHeight);
     });    
