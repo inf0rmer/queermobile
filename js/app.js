@@ -379,9 +379,9 @@ $(document).bind("mobileinit", function(){
 			.attr('data-theme', 'c')
 			.attr('data-role', 'page')
 			
-			modelData.date = modelData.date.substr(0, modelData.date.indexOf('+'));
+			//modelData.date = modelData.date.substr(0, modelData.date.indexOf('+'));
 			
-			alert(new Date("Mon Feb 07 2011 11:05:00 GMT"));
+			alert(new Date(modelData.date));
 			
 			date = new Date(Date.parse(modelData.date));
 			
