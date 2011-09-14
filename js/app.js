@@ -392,11 +392,11 @@ $(document).bind("mobileinit", function(){
 			$.mobile.changePage($('#event-' + this.model.id), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
 			// Get related films
-			if (this.model.get('type').toLowerCase() == 'film') {
-				alert('getting related films');
-				
+			if (this.model.get('type').toLowerCase() == 'film') {				
 				relatedFilms = this.model.get('related').trim();
 				relatedFilms = relatedFilms.split(',');
+				
+				alert(relatedFilms.length);
 				
 				filmCollection = new App.FilmList;
 				
