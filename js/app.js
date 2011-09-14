@@ -379,11 +379,7 @@ $(document).bind("mobileinit", function(){
 			.attr('data-theme', 'c')
 			.attr('data-role', 'page')
 			
-			//modelData.date = modelData.date.substr(0, modelData.date.indexOf('+'));
-			
-			alert(new Date(modelData.date));
-			
-			date = new Date(Date.parse(modelData.date));
+			date = new Date(modelData.date);
 			
 			date.locale = 'pt-pt';
 			
