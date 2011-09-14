@@ -387,7 +387,9 @@ $(document).bind("mobileinit", function(){
 				filmsArray = [],
 				filmView,
 				modelData = this.model.toJSON(),
-				date;
+				date,
+				spinner = new Spinner(App.spinnerOpts).spin(),
+				oldPadding;
 			
 			$(this.el)
 			.addClass('event-page')
@@ -439,12 +441,24 @@ $(document).bind("mobileinit", function(){
 						filmsArray.push({id: item});
 					});
 					
+					spinner.el.className = 'spinner';
+					$(that.el).find('.related-films').before(spinner.el);
+					
+					oldPadding = $('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom');
+					$('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom', '100px');
+					
 					filmCollection.add(filmsArray);
 					filmCollection.fetch({dataType: App.method, success: function() {
+						var fragment = document.createDocumentFragment();
+						
 						filmCollection.each(function(film) {
 							var view = new filmView( {model: film} );
-							$($.mobile.activePage).find('.related-films').append(view.render().el);
+							fragment.appendChild(view.render().el);
 						});
+						
+						spinner.stop();
+						$('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom', oldPadding);
+						$('#event-' + that.model.id).find('.related-films').append(fragment);
 					}});
 				}
 			}
