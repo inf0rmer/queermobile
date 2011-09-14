@@ -3361,6 +3361,7 @@ window.addToHomeConfig = {
 $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
+	$.mobile.loadingMessage = 'A carregar...';
 });
 
 (function() {
@@ -3794,7 +3795,8 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
-			$(this.el).empty();
+			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
+			$(this.el).find('.ui-loader').show();
 			
 			App.Events.fetch({
 				dataType: 'jsonp',
@@ -3807,8 +3809,9 @@ $(document).bind("mobileinit", function(){
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
 				
-				return template(obj);
+				return $(template(obj)).get(0);
 			},
+			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
 			
 			date.locale = 'pt-pt';
@@ -3822,14 +3825,15 @@ $(document).bind("mobileinit", function(){
 				previousEvent = App.Events.at(App.Events.indexOf(event) - 1);
 				
 				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {
-					$el.append(renderDivider({
+					fragment.appendChild(renderDivider({
 						hour: event.get('hour')
 					}));
 				}
 				
-				$el.append(view.render().el);
+				fragment.appendChild(view.render().el);
 			});
 			
+			$el.append(fragment);
 		},
 		
 		addOne: function(event) {
@@ -3849,7 +3853,8 @@ $(document).bind("mobileinit", function(){
 		initialize: function() {
 			var that = this;
 			
-			$(this.el).empty();
+			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
+			$(this.el).find('.ui-loader').show();		
 			
 			_.bindAll(this,'addOne','render');
 			App.MyEvents.bind('reset', this.render);
@@ -3921,16 +3926,16 @@ $(document).bind("mobileinit", function(){
 			App.Dates.bind('reset', this.render);
 			App.Dates.bind('add', this.addOne);
 			
+			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
+			$(this.el).find('.ui-loader').show();
+			
 			App.Dates.fetch({dataType: 'jsonp'});
 		},
 		
 		render: function() {
 			var $el = $(this.el);
 			$el.empty();
-			
 			this.addAll();
-			
-			//App.reapplyStyles($(this.el));
 		},
 		
 		addOne: function(event) {
