@@ -323,7 +323,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" class="nav-button" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><h1>{{title}}</h1><a href="#" class="addToMyList" data-iconpos="notext" data-icon="add"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" class="nav-button" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -351,11 +351,21 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		disableAddButton: function() {
-			$(this.el).find('.addToMyList').attr('data-icon', 'minus').removeClass('addToMyList').addClass('removeFromMyList').find('span.ui-icon').addClass("ui-icon-minus").removeClass("ui-icon-plus");
+			if ($('.removeFromMyList').length) return false;
+			
+			$(this.el).find('.addToMyList').parents('.ui-btn').remove();
+			$(this.el).find('.addToMyList').remove();
+			$(this.el).find('dl').after('<button class="removeFromMyList" data-theme="f" data-icon="minus">Remover da minha agenda</button>');
+			$(this.el).find('.removeFromMyList').button();
 		},
 		
 		enableAddButton: function() {
-			$(this.el).find('.removeFromMyList').attr('data-icon', 'add').removeClass('removeFromMyList').addClass('addToMyList').find('span.ui-icon').addClass("ui-icon-plus").removeClass("ui-icon-minus");
+			if ($('.addToMyList').length) return false;
+			
+			$(this.el).find('.removeFromMyList').parents('.ui-btn').remove();
+			$(this.el).find('.removeFromMyList').remove();
+			$(this.el).find('dl').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar à minha agenda</button>');
+			$(this.el).find('.addToMyList').button();
 		},
 		
 		render: function() {
@@ -390,7 +400,11 @@ $(document).bind("mobileinit", function(){
 				$('body').append(this.el);
 			}
 			
-			if (App.MyEvents.get(this.model.id)) this.disableAddButton();
+			if (App.MyEvents.get(this.model.id)) {
+				this.disableAddButton();
+			} else {
+				this.enableAddButton();
+			}
 			
 			$('div[data-role="page"]').page();
 			
@@ -479,6 +493,7 @@ $(document).bind("mobileinit", function(){
 				
 				$el.append(view.render().el);
 			});
+			
 		},
 		
 		addOne: function(event) {
@@ -498,6 +513,8 @@ $(document).bind("mobileinit", function(){
 		initialize: function() {
 			var that = this;
 			
+			//$(this.el).empty();
+			
 			_.bindAll(this,'addOne','render');
 			App.MyEvents.bind('reset', this.render);
 			App.MyEvents.bind('add', this.addOne);
@@ -508,16 +525,18 @@ $(document).bind("mobileinit", function(){
 		render: function() {
 			var $el = $(this.el),
 			renderDivider = function(obj) {
-				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{date}} - {{hour}}</li>');
+				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading">{{date}} - {{hour}}</li>');
 				
 				return template(obj);
-			};
+			},
+	//		liTemplate = template: Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>'),
+			fragment = document.createDocumentFragment();
 			
 			$(this.el).empty();
 			
 			App.MyEvents.each(function(event) {
 				var view = new App.EventView({model: event}),
-				previousEvent = App.MyEvents.at(App.Events.indexOf(event) - 1),
+				previousEvent = App.MyEvents.at(App.MyEvents.indexOf(event) - 1),
 				date = event.get('date').substr(0, event.get('date').indexOf(' '));
 				
 				date = new Date(Date.parse(date));
@@ -529,8 +548,13 @@ $(document).bind("mobileinit", function(){
 					}));
 				}
 				
-				$el.append(view.render().el);
+				view.template = Handlebars.compile('<a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>'),
+				
+				fragment.appendChild(view.render().el);
+				console.log(view.render().el);
 			});
+			
+			$el.append(fragment);
 		},
 		
 		addOne: function(event) {
@@ -592,7 +616,7 @@ $(document).bind("mobileinit", function(){
 	}
 	
 	App.reapplyStyles = function($el) {
-		//$el.find('ul[data-role]').listview();
+		//$el.find('ul[data-role="listview"]').listview();
 	   // $el.find('div[data-role="fieldcontain"]').fieldcontain();
     	$el.find('button[data-role="button"]').button();
 	    //$el.find('input,textarea').textinput();
@@ -627,9 +651,6 @@ $(document).bind("mobileinit", function(){
 			
 			App.reapplyStyles($('#myAgenda'));
 			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
-			
-			//App.transition = 'slideup';
-			App.reverseTransition = true;
 		},
 		
 		showDatesPage: function() {
