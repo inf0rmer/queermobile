@@ -393,6 +393,8 @@ $(document).bind("mobileinit", function(){
 			
 			// Get related films
 			if (this.model.get('type').toLowerCase() == 'film') {
+				alert('getting related films');
+				
 				relatedFilms = this.model.get('related').trim();
 				relatedFilms = relatedFilms.split(',');
 				
