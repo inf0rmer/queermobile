@@ -309,7 +309,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a">Voltar</a><h1>{{title}}</h1><a href="#" class="addToMyList" data-icon="add">Minha Agenda</a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><h1>{{title}}</h1><a href="#" class="addToMyList" data-iconpos="notext" data-icon="add"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div><div data-role="footer" id="ftrMain" name="ftrMain" data-theme="c"><p>&copy; 2011 - Bruno Abrantes</p></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -337,7 +337,7 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		disableAddButton: function() {
-			$(this.el).find('.addToMyList').attr('data-icon', 'check').removeClass('addToMyList').addClass('removeFromMyList').find('span.ui-icon').addClass("ui-icon-minus").removeClass("ui-icon-plus");
+			$(this.el).find('.addToMyList').attr('data-icon', 'minus').removeClass('addToMyList').addClass('removeFromMyList').find('span.ui-icon').addClass("ui-icon-minus").removeClass("ui-icon-plus");
 		},
 		
 		enableAddButton: function() {
