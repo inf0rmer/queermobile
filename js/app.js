@@ -223,7 +223,7 @@ $(document).bind("mobileinit", function(){
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
 			
-			$('.youtube-player').fitVids();
+			$('.youtube-video').fitVids();
 			
 			return this;
 		}
@@ -249,7 +249,7 @@ $(document).bind("mobileinit", function(){
 			result = this.template(model);
 			$(this.el).attr('data-theme', 'c').html(result);
 			
-			$('.youtube-player').fitVids();
+			$('.youtube-video').fitVids();
 			
 			return this;
 		}
