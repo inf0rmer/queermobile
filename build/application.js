@@ -4125,7 +4125,11 @@ $(function() {
           return;
       $('.youtube-video').attr("height", newHeight);
     });    
-});/*!
+});
+
+function BlockMove(event) {
+	event.preventDefault();
+}/*!
  * jQuery Mobile v1.0b3
  * http://jquerymobile.com/
  *

@@ -787,3 +787,7 @@ $(function() {
       $('.youtube-video').attr("height", newHeight);
     });    
 });
+
+function BlockMove(event) {
+	event.preventDefault();
+}
