@@ -3872,7 +3872,7 @@ $(document).bind("mobileinit", function(){
 			
 			// Add a message in case there are no events yet
 			if (!App.MyEvents.length) {
-				$(this.el).html('<p>Visite a página de um evento e adicione-o à sua agenda, para poder construir o seu calendário personalizado!</p>')
+				$(this.el).html('<p class="emptyMsg">Visite a página de um evento e adicione-o à sua agenda, para poder construir o seu calendário personalizado!</p>')
 			}
 			
 			

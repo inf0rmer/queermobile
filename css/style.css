@@ -230,6 +230,11 @@ div[data-role="header"] {
 	color: #222;
 }
 
+.emptyMsg {
+	text-align: center;
+	margin-top: 30px;
+}
+
 ul {
 	list-style-type: none;
 }
