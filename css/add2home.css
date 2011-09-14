@@ -10,7 +10,7 @@ html { -webkit-text-size-adjust:none; }
 	z-index:9999;
 	-webkit-user-select:none;
 	-webkit-box-sizing:border-box;
-	width:208px;
+	width:220px;
 	font-size:13px;
 	padding:10px;
 	text-align:left;
@@ -32,7 +32,7 @@ html { -webkit-text-size-adjust:none; }
  *
  */
 #addToHomeScreen.wide {
-	width:240px;
+	width:255px;
 }
 
 
@@ -79,16 +79,13 @@ html { -webkit-text-size-adjust:none; }
 	position:absolute;
 	right:2px;
 	top:2px;
-	width:14px;
-	height:14px; line-height:10px;
+	width:16px;
+	height:16px; line-height:10px;
 	text-align:center;
 	text-indent:1px;
 	font-size:14px;
-	/*
 	-webkit-border-radius:7px;
 	background:rgba(0,0,0,0.12);
-	*/
-	background: transparent;
 	color:#555;
 	-webkit-box-shadow:0 1px 0 #fff;
 	font-size:13px;
