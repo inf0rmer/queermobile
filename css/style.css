@@ -303,6 +303,12 @@ dd {
 	margin: 0;
 }
 
+.nav-button.home {
+	top: 5px;
+	left: 40px;
+	position: absolute;
+}
+
 /* CSS MQ */
 
 @media only screen and (min-width: 800px) {
