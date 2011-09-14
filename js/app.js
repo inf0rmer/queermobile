@@ -11,6 +11,12 @@ Date.ext.locales['pt-pt'] = {
 	X: '%T'
 };
 
+window.addToHomeConfig = {
+	message		: 'pt-pt',
+	animationIn	: 'fade',
+	touchIcon 	: true
+}
+
 $(document).bind("mobileinit", function(){
 	$.mobile.ajaxEnabled = false;
 	$.mobile.hashListeningEnabled = false;
