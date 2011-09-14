@@ -456,9 +456,6 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
-			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
-			$(this.el).find('.ui-loader').show();
-			
 			App.Events.fetch({
 				dataType: 'json',
 				url: App.Events.url + date
@@ -513,9 +510,6 @@ $(document).bind("mobileinit", function(){
 
 		initialize: function() {
 			var that = this;
-			
-			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
-			$(this.el).find('.ui-loader').show();		
 			
 			_.bindAll(this,'addOne','render');
 			App.MyEvents.bind('reset', this.render);
@@ -586,9 +580,6 @@ $(document).bind("mobileinit", function(){
 			_.bindAll(this,'addOne','render');
 			App.Dates.bind('reset', this.render);
 			App.Dates.bind('add', this.addOne);
-			
-			$(this.el).html('<div class="ui-loader ui-body-a ui-corner-all" style="top: 239px; "><span class="ui-icon ui-icon-loading spin"></span><h1>' + $.mobile.loadingMessage + '</h1></div>');
-			$(this.el).find('.ui-loader').show();
 			
 			App.Dates.fetch({dataType: 'json'});
 		},
