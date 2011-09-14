@@ -28,11 +28,11 @@
 
 <target name="compressCSS" depends="concatenateCSS" description="Compress application.css to application-min.css">
     <apply executable="command" parallel="false">
-        <filelist dir="build" files="style.css" />
+        <filelist dir="build" files="application.css" />
         <arg line="yuicompressor " />
         <srcfile />
         <arg line ="-o " />
-        <mapper type="glob" from="*.js" to="build/*-min.css" />
+        <mapper type="glob" from="*.css" to="build/*-min.css" />
         <targetfile />
     </apply>
 </target>
