@@ -440,6 +440,8 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
+			$(this.el).empty();
+			
 			App.Events.fetch({
 				dataType: 'jsonp',
 				url: App.Events.url + date
@@ -636,9 +638,10 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showDate: function(date) {	
-			var view = App.cachedViews['eventListView'] || new App.EventListView(date);
+			console.log(date);
+			var view = App.cachedViews['eventListView-' + date] || new App.EventListView(date);
 			
-			App.cachedViews['eventListView'] = view;
+			App.cachedViews['eventListView-' + date] = view;
 			
 			App.reapplyStyles($('#showDate'));
 			$.mobile.changePage($('#showDate'), {changeHash: false, reverse: App.reverseTransition});
