@@ -327,7 +327,17 @@ dd {
 	position: absolute;
 }
 
+#loaderScreen {
+	background: url(../img/l/splash.png) no-repeat center;
+}
+
 /* CSS MQ */
+
+@media screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+	#loaderScreen {
+		background: url(../img/h/splash.png) no-repeat center;
+	}
+}
 
 @media only screen and (min-width: 800px) {
 }/*/mediaquery*/

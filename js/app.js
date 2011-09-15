@@ -764,10 +764,16 @@ $(document).bind("mobileinit", function(){
 })();
 
 $(function() {
-
+	
+	var spinner = new Spinner(App.spinnerOpts).spin();
+	spinner.el.className = 'spinner';
+	$(spinner.el).css({position: 'absolute', top: '50%'});
+	
+	$('#loaderScreen').append(spinner.el);
+	
 	setTimeout(function() {
 		Backbone.history.start();
-	}, 200);
+	}, 1500);
 	
 	$('[data-rel="back"], .back').live('click', function() {
 		App.reverseTransition = true;
