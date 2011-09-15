@@ -339,7 +339,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a data-rel="back" class="nav-button" data-icon="back" data-theme="a" data-iconpos="notext" data-direction="reverse"></a><a href="#/home" class="nav-button home" data-iconpos="notext" data-direction="reverse" data-icon="home" data-theme="a"></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd>{{#if note}}<dt><span>Mais informação</span></dt><dd>{{note}}</dd>{{/if}}</dl></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -408,6 +408,8 @@ $(document).bind("mobileinit", function(){
 			date.locale = 'pt-pt';
 			
 			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
+			modelData.urlDate = date.strftime('%Y-%m-%d');
+			modelData.buttonDate = date.strftime('%a, %d %b')
 			
 			if (modelData.venue.main) {
 				modelData.prettyVenue = modelData.venue.main;
