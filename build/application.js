@@ -3848,7 +3848,7 @@ $(document).bind("mobileinit", function(){
 			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
 			
-			this.spinner.stop();
+			//this.spinner.stop();
 			
 			date.locale = 'pt-pt';
 			
