@@ -3839,6 +3839,7 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		render: function() {
+			/*
 			var $el = $(this.el),
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
@@ -3848,14 +3849,14 @@ $(document).bind("mobileinit", function(){
 			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
 			
-			//this.spinner.stop();
+			this.spinner.stop();
 			
 			date.locale = 'pt-pt';
 			
 			$el.empty();
 			
-			//$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
-			/*
+			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
+			
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
 				previousEvent = App.Events.at(App.Events.indexOf(event) - 1);
@@ -3868,9 +3869,9 @@ $(document).bind("mobileinit", function(){
 				
 				fragment.appendChild(view.render().el);
 			});
-			*/
 			
 			$el.append(fragment);
+			*/
 		},
 		
 		addOne: function(event) {
