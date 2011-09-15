@@ -515,7 +515,7 @@ $(document).bind("mobileinit", function(){
 			
 			date.locale = 'pt-pt';
 			
-			$(el).empty();
+			$el.empty();
 			
 			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
 			/*

@@ -3841,6 +3841,7 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		render: function() {
+			console.log('render');
 			var $el = $(this.el),
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
@@ -3854,7 +3855,7 @@ $(document).bind("mobileinit", function(){
 			
 			date.locale = 'pt-pt';
 			
-			$(el).empty();
+			$el.empty();
 			
 			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
 			/*
