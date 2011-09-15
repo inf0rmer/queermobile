@@ -515,7 +515,7 @@ $(document).bind("mobileinit", function(){
 			
 			$el.empty();
 			
-			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
+			//$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
 			/*
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
