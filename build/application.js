@@ -3678,7 +3678,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informação</span></h2>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informação</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -3970,6 +3970,7 @@ $(document).bind("mobileinit", function(){
 			catch (err) {
 			}
 			
+			return this;
 		},
 		
 		addOne: function(event) {
@@ -4072,7 +4073,14 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		showDate: function(date) {	
-			new App.EventListView(date);
+			var view = App.cachedViews['eventListView-' + date] || App.EventListView;
+			
+			new view(date);
+
+			// render it and transition right now if it is cached 
+			if (App.cachedViews['eventListView-' + date]) $.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+
+			App.cachedViews['eventListView-' + date] = view;
 		},
 		
 		showEvent: function(id) {
