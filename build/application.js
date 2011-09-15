@@ -3791,18 +3791,21 @@ $(document).bind("mobileinit", function(){
 					$('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom', '100px');
 					
 					filmCollection.add(filmsArray);
-					filmCollection.fetch({dataType: App.method, success: function() {
-						var fragment = document.createDocumentFragment();
-						
-						filmCollection.each(function(film) {
-							var view = new filmView( {model: film} );
-							fragment.appendChild(view.render().el);
-						});
-						
-						spinner.stop();
-						$('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom', oldPadding);
-						$('#event-' + that.model.id).find('.related-films').append(fragment);
-					}});
+					// Waiting a little makes the transition smoother
+					setTimeout(function() {
+						filmCollection.fetch({dataType: App.method, success: function() {
+							var fragment = document.createDocumentFragment();
+							
+							filmCollection.each(function(film) {
+								var view = new filmView( {model: film} );
+								fragment.appendChild(view.render().el);
+							});
+							
+							spinner.stop();
+							$('#event-' + that.model.id).find('[data-role="content"]').css('padding-bottom', oldPadding);
+							$('#event-' + that.model.id).find('.related-films').append(fragment);
+						}});
+					}, 500);
 				}
 			}
 			
@@ -3826,12 +3829,15 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
+			$(this.el).empty();
+			
 			this.spinner = new Spinner(App.spinnerOpts).spin();
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
+			// Waiting a little makes the transition smoother
 			setTimeout(function() {
 				App.Events.fetch({
 					dataType: App.method,
@@ -3904,7 +3910,10 @@ $(document).bind("mobileinit", function(){
 			
 			$.mobile.changePage($('#myAgenda'), {changeHash: false, transition: 'slideup', reverse: App.reverseTransition});
 			
-			App.MyEvents.fetch();
+			// Waiting a little makes the transition smoother
+			setTimeout(function() {
+				App.MyEvents.fetch();
+			}, 500);
 		},
 		
 		render: function() {
@@ -3986,7 +3995,10 @@ $(document).bind("mobileinit", function(){
 			
 			$.mobile.changePage($('#dateSelection'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
-			App.Dates.fetch({dataType: App.method});
+			// Waiting a little makes the transition smoother
+			setTimeout(function() {
+				App.Dates.fetch({dataType: App.method});
+			}, 500);
 		},
 		
 		render: function() {
@@ -4070,9 +4082,12 @@ $(document).bind("mobileinit", function(){
 			if (!event) {
 				event = new App.Event({id : id});
 				
-				event.fetch({dataType: App.method, success: function() {
-					new App.ShowEventView({model: event});
-				}});
+				// Waiting a little makes the transition smoother
+				setTimeout(function() {
+					event.fetch({dataType: App.method, success: function() {
+						new App.ShowEventView({model: event});
+					}});
+				}, 500);
 			} else {
 				new App.ShowEventView({model: event});
 			}
