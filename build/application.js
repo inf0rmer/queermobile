@@ -3835,7 +3835,7 @@ $(document).bind("mobileinit", function(){
 			
 			$(this.el).empty();
 			
-			$('#showDate').find('[data-role="header"] h1').text(new Date(date).strftime('%a, %d %b'));
+			$('#showDate').find('[data-role="header"] h1').text(new Date(that.date).strftime('%a, %d %b'));
 			
 			this.spinner = new Spinner(App.spinnerOpts).spin();
 			this.spinner.el.className = 'spinner';
