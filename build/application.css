@@ -1912,7 +1912,7 @@ div[data-role="header"] {
 	padding: 1.3em 15px;
 }
 
-.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+.ui-li.has-thumb .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
 	padding-left: 36px;
 }
 

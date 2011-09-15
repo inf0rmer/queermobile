@@ -3616,7 +3616,7 @@ $(document).bind("mobileinit", function(){
 		
 		tagName: 'li',
 		
-		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li',
+		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li has-thumb',
 		
 		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /> <a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
