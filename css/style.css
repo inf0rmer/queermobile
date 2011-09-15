@@ -333,7 +333,7 @@ dd {
 
 [data-role="footer"] {
 	background: #ccc;
-	padding: 15px 5px;
+	padding: 15px 0;
 	text-align: center;
 }
 
