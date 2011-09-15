@@ -3856,8 +3856,8 @@ $(document).bind("mobileinit", function(){
 			
 			$(el).empty();
 			
-			//$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
-			
+			$('#showDate').find('[data-role="header"] h1').text(date.strftime('%a, %d %b'));
+			/*
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
 				previousEvent = App.Events.at(App.Events.indexOf(event) - 1);
@@ -3870,6 +3870,7 @@ $(document).bind("mobileinit", function(){
 				
 				fragment.appendChild(view.render().el);
 			});
+			*/
 			
 			$el.append(fragment);
 		},
