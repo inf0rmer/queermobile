@@ -2037,6 +2037,12 @@ dd {
 	}
 }
 
+@media screen and (min-width: 800px) {
+	#loaderScreen {
+		background: url(../img/h/splash.png) no-repeat center;
+	}
+}
+
 @media only screen and (min-width: 800px) {
 }/*/mediaquery*/
 
