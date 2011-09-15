@@ -3826,14 +3826,12 @@ $(document).bind("mobileinit", function(){
 			App.Events.bind('reset', this.render);
 			App.Events.bind('add', this.addOne);
 			
-			$(this.el).empty();
-			
 			this.spinner = new Spinner(App.spinnerOpts).spin();
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
 			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-
+			
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
@@ -3841,7 +3839,6 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		render: function() {
-			console.log('render');
 			var $el = $(this.el),
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
