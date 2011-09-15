@@ -491,10 +491,15 @@ $(document).bind("mobileinit", function(){
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
-			App.Events.fetch({
-				dataType: App.method,
-				url: App.Events.url + date
-			});
+			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			
+			setTimeout(function() {
+				App.Events.fetch({
+					dataType: App.method,
+					url: App.Events.url + date
+				});
+			}, 500);
+			
 		},
 		
 		render: function() {
@@ -506,8 +511,6 @@ $(document).bind("mobileinit", function(){
 			},
 			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
-			
-			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
 			this.spinner.stop();
 			
