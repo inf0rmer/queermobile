@@ -3712,14 +3712,14 @@ $(document).bind("mobileinit", function(){
 		disableAddButton: function() {			
 			$(this.el).find('.addToMyList').parents('.ui-btn').remove();
 			$(this.el).find('.addToMyList').remove();
-			$(this.el).find('more-info').after('<button class="removeFromMyList" data-theme="f" data-icon="minus">Remover da minha agenda</button>');
+			$(this.el).find('.more-info').after('<button class="removeFromMyList" data-theme="f" data-icon="minus">Remover da minha agenda</button>');
 			$(this.el).find('.removeFromMyList').button();
 		},
 		
 		enableAddButton: function() {		
 			$(this.el).find('.removeFromMyList').parents('.ui-btn').remove();
 			$(this.el).find('.removeFromMyList').remove();
-			$(this.el).find('more-info').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar à minha agenda</button>');
+			$(this.el).find('.more-info').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar à minha agenda</button>');
 			$(this.el).find('.addToMyList').button();
 		},
 		

@@ -1995,7 +1995,10 @@ dd {
 
 .event-page .ui-content p {
 	margin: 10px 0;
-	text-align: justify;
+}
+
+.event-page .more-info strong {
+	text-align: center;
 }
 
 .event-page .ui-content img {
