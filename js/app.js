@@ -397,8 +397,6 @@ $(document).bind("mobileinit", function(){
 			
 			this.spinner.stop();
 			
-			console.log(modelData);
-			
 			$(this.el)
 			.addClass('event-page')
 			.attr('id', 'event-' + that.model.id)
@@ -482,40 +480,43 @@ $(document).bind("mobileinit", function(){
 	
 	
 	App.EventListView = Backbone.View.extend({
-		
-		el: $('#programmeList'),
+	
+		template: Handlebars.compile('<div data-role="header"><a href="#/dates"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">Datas</a></a><h1>{{titleDate}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><ul data-role="listview" class="ui-listview programme-list"></ul></div>'),
 
 		initialize: function(date) {
-			var that = this;
+			var that = this,
+				$el = $(this.el);		
 			
 			that.date = date.replace(/-/g, '/');
-			
-			_.bindAll(this,'addOne','render');
-			App.Events.bind('reset', this.render);
-			App.Events.bind('add', this.addOne);
-			
-			$(this.el).empty();
-			
-			$('#showDate').find('[data-role="header"] h1').text(new Date(that.date).strftime('%a, %d %b'));
+			that.originalDate = date;
 			
 			this.spinner = new Spinner(App.spinnerOpts).spin();
 			this.spinner.el.className = 'spinner';
-			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
-			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			$el
+			.attr('id', 'eventListView-' + that.originalDate)
+			.attr('data-theme', 'c')
+			.attr('data-role', 'page')
+			.addClass('date-page')
+			.append(this.template({titleDate: new Date(that.date).strftime('%a, %d %b')}))
+			.append(this.spinner.el);
 			
-			// Waiting a little makes the transition smoother
-			setTimeout(function() {
-				App.Events.fetch({
-					dataType: App.method,
-					url: App.Events.url + date
-				});
-			}, 500);
+			$('body').append($el);
 			
+			$.mobile.changePage($('#eventListView-' + that.originalDate), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			
+			App.Events.fetch({
+				dataType: App.method,
+				url: App.Events.url + date,
+				success: function() {
+					that.render();
+				}
+			});
 		},
 		
 		render: function() {
 			var $el = $(this.el),
+			that = this,
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
 				
@@ -528,8 +529,7 @@ $(document).bind("mobileinit", function(){
 			
 			date.locale = 'pt-pt';
 			
-			$el.empty();
-			
+			//$el.empty();			
 			
 			App.Events.each(function(event) {
 				var view = new App.EventView({model: event}),
@@ -544,7 +544,9 @@ $(document).bind("mobileinit", function(){
 				fragment.appendChild(view.render().el);
 			});
 			
-			$el.append(fragment);
+			$('#eventListView-' + that.originalDate).find('[data-role="content"] ul.programme-list').empty().append($(fragment));
+			
+			return this;
 		},
 		
 		addOne: function(event) {
@@ -607,8 +609,6 @@ $(document).bind("mobileinit", function(){
 				date = event.get('date').substr(0, event.get('date').indexOf('+'));
 				
 				date = new Date(Date.parse(date));
-				
-				if (previousEvent) console.log(previousEvent.get('hour'), previousEvent.get('title'), event.get('hour'));
 				
 				if (!previousEvent || (previousEvent && previousEvent.get('hour') != event.get('hour'))) {					
 					fragment.appendChild(renderDivider({
@@ -733,15 +733,13 @@ $(document).bind("mobileinit", function(){
 			
 		},
 		
-		showDate: function(date) {	
-			var view = App.cachedViews['eventListView-' + date] || App.EventListView;
-			
-			new view(date);
-
-			// render it and transition right now if it is cached 
-			if (App.cachedViews['eventListView-' + date]) $.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-
-			App.cachedViews['eventListView-' + date] = view;
+		showDate: function(date) {			
+			// transition right now if page was already rendered
+			if ($('#eventListView-' + date).length) {
+				$.mobile.changePage($('#eventListView-' + date), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
+			} else {
+				new App.EventListView(date);
+			}
 		},
 		
 		showEvent: function(id) {
