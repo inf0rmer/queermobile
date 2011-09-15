@@ -491,8 +491,6 @@ $(document).bind("mobileinit", function(){
 			this.spinner.el.className = 'spinner';
 			$(this.el).parents('[data-role="page"]').append(this.spinner.el);
 			
-			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
-			
 			App.Events.fetch({
 				dataType: App.method,
 				url: App.Events.url + date
@@ -500,7 +498,6 @@ $(document).bind("mobileinit", function(){
 		},
 		
 		render: function() {
-			/*
 			var $el = $(this.el),
 			renderDivider = function(obj) {
 				var template = Handlebars.compile('<li data-dividerID="{{hour}}" data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-a">{{hour}}</li>');
@@ -509,6 +506,8 @@ $(document).bind("mobileinit", function(){
 			},
 			fragment = document.createDocumentFragment(),
 			date = new Date(this.date);
+			
+			$.mobile.changePage($('#showDate'), {changeHash: false, transition: App.transition || 'slide', reverse: App.reverseTransition});
 			
 			this.spinner.stop();
 			
@@ -532,7 +531,6 @@ $(document).bind("mobileinit", function(){
 			});
 			
 			$el.append(fragment);
-			*/
 		},
 		
 		addOne: function(event) {
