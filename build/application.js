@@ -3678,7 +3678,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.ShowEventView = Backbone.View.extend({
 		
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informação</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informação</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
 		
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -3820,7 +3820,7 @@ $(document).bind("mobileinit", function(){
 	
 	App.EventListView = Backbone.View.extend({
 	
-		template: Handlebars.compile('<div data-role="header"><a href="#/dates"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">Datas</a></a><h1>{{titleDate}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><ul data-role="listview" class="ui-listview programme-list"></ul></div>'),
+		template: Handlebars.compile('<div data-role="header"><a href="#/dates"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">Datas</a></a><h1>{{titleDate}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><ul data-role="listview" class="ui-listview programme-list"></ul></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
 
 		initialize: function(date) {
 			var that = this,
