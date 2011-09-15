@@ -3748,7 +3748,7 @@ $(document).bind("mobileinit", function(){
 			
 			modelData.prettyDate = date.strftime('%A, %d %B - %H:%M');
 			modelData.urlDate = date.strftime('%Y-%m-%d');
-			modelData.buttonDate = date.strftime('%a, %d %b')
+			modelData.buttonDate = date.strftime('%d %b')
 			
 			if (modelData.venue.main) {
 				modelData.prettyVenue = modelData.venue.main;
