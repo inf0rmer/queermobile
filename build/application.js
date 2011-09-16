@@ -3616,7 +3616,7 @@ $(document).bind("mobileinit", function(){
 		
 		tagName: 'li',
 		
-		className: 'ui-btn ui-btn-up-c ui-btn-icon-right ui-li has-thumb',
+		className: 'ui-btn ui-btn-icon-right ui-li has-thumb ui-btn-up-c',
 		
 		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /> <a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 		
@@ -3969,6 +3969,8 @@ $(document).bind("mobileinit", function(){
 			} 
 			catch (err) {
 			}
+			
+			$el.find('li').not('[data-role="list-divider"]').addClass('ui-btn ui-btn-icon-right ui-li has-thumb ui-btn-up-c');
 			
 			return this;
 		},
