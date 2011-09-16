@@ -4106,6 +4106,8 @@ $(document).bind("mobileinit", function(){
 })();
 
 $(function() {
+
+	$('body').fadeIn();
 	
 	var spinner = new Spinner(App.spinnerOpts).spin();
 	spinner.el.className = 'spinner';
