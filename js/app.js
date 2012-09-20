@@ -251,7 +251,7 @@ $(document).bind("mobileinit", function(){
 	App.MultiFilmView = Backbone.View.extend({
 		tagName: 'article',
 
-		template: Handlebars.compile('<li><article><h3><span>{{title}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><iframe height="' + $(window).width()*9/16 + '" width="100%" class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
+		template: Handlebars.compile('<li><article><h3><span>{{{title}}}</span></h3><h4><span>Sinopse</span></h4><img src="{{poster}}" /><p class="meta">By {{directors}} / {{length}} / {{runtime}} min.</p><p class="description">{{description}}</p>{{#if videoID}}<h4><span>Trailer</span></h4><iframe height="' + $(window).width()*9/16 + '" width="100%" class="youtube-video" type="text/html" src="http://www.youtube.com/embed/{{videoID}}" frameborder="0"></iframe>{{/if}}</p></article></li>'),
 
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -280,7 +280,7 @@ $(document).bind("mobileinit", function(){
 
 		className: 'ui-btn ui-btn-icon-right ui-li has-thumb ui-btn-up-c',
 
-		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /> <a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
+		template: Handlebars.compile('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /> <a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{{title}}}</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div>'),
 
 		initialize: function() {
 			_.bindAll(this, 'render');
@@ -340,7 +340,7 @@ $(document).bind("mobileinit", function(){
 
 	App.ShowEventView = Backbone.View.extend({
 
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informa&ccedil;&atilde;o</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{{title}}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informa&ccedil;&atilde;o</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
 
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -619,7 +619,7 @@ $(document).bind("mobileinit", function(){
 				}
 
 				view.el.className = '';
-				view.template = Handlebars.compile('<img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{title}}</a>');
+				view.template = Handlebars.compile('<img src="img/ql-icon-20-{{imageType}}.png" class="ui-li-icon" /><a href="#/events/{{id}}" data-eventID="{{id}}" class="ui-link-inherit">{{{title}}}</a>');
 
 				fragment.appendChild(view.render().el);
 			});
