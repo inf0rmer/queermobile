@@ -1,7 +1,7 @@
 //Portuguese Date locale
 Date.ext.locales['pt-pt'] = {
-	a: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-	A: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+	a: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'S&aacute;b'],
+	A: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
 	b: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
 	B: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
 	c: '%a %d %b %Y %T %Z',
@@ -340,7 +340,7 @@ $(document).bind("mobileinit", function(){
 
 	App.ShowEventView = Backbone.View.extend({
 
-		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informação</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
+		template: Handlebars.compile('<div data-role="header" data-add-back-btn="true"><a href="#/dates/{{urlDate}}"class="nav-button" data-icon="back" data-theme="a" data-direction="reverse">{{buttonDate}}</a></a><h1>{{title}}</h1><a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a></div><div data-role="content"><dl><dt class="date"><span>Data</span></dt><dd><time>{{prettyDate}}</time><dt><span>Local</span></dt><dd>{{prettyVenue}}</dd></dd></dl><div class="more-info"><h3><span>Mais informa&ccedil;&atilde;o</span></h3>{{#if note}}<p><strong>{{note}}</strong>{{/if}} </p><p>{{description}}</p></div></div><div data-role="footer" data-position="fixed" name="footer" data-theme="c"><a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a></div>'),
 
 		events: {
 			'click .addToMyList' 		: 'addToMyList',
@@ -381,7 +381,7 @@ $(document).bind("mobileinit", function(){
 		enableAddButton: function() {
 			$(this.el).find('.removeFromMyList').parents('.ui-btn').remove();
 			$(this.el).find('.removeFromMyList').remove();
-			$(this.el).find('.more-info').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar à minha agenda</button>');
+			$(this.el).find('.more-info').after('<button class="addToMyList" data-theme="g" data-icon="add">Adicionar &agrave; minha agenda</button>');
 			$(this.el).find('.addToMyList').button();
 		},
 
@@ -600,7 +600,7 @@ $(document).bind("mobileinit", function(){
 
 			// Add a message in case there are no events yet
 			if (!App.MyEvents.length) {
-				$(this.el).html('<p class="emptyMsg">Visite a página de um evento e adicione-o à sua agenda para poder construir o seu calendário personalizado!</p>')
+				$(this.el).html('<p class="emptyMsg">Visite a p&aacute;gina de um evento e adicione-o &agrave; sua agenda para poder construir o seu calend&aacute;rio personalizado!</p>')
 			}
 
 
