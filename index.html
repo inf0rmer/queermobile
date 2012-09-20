@@ -1,6 +1,6 @@
 ﻿<!doctype html>
 <!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
-<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js" manifest="default.appcache?v=1"> <!--<![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
 
 <head>
   <meta charset="utf-8">
@@ -26,28 +26,28 @@
   <link rel="apple-touch-startup-image" href="img/l/splash.png"  media="screen and (max-device-width: 320px)">
   <meta http-equiv="cleartype" content="on">
   <link rel="stylesheet" href="build/application-min.css">
-  
+
 </head>
 
 <body class="visuallyhidden">
 
 	<div data-role="page" data-theme="c" id="loaderScreen">
 	</div>
-	
+
 	<div data-role="page" data-theme="c" id="dateSelection">
 		<div data-role="header" id="hdrMain" name="hdrMain">
 			<h1>Queer Lisboa</h1>
 			<a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a>
 		</div>
-		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">			
-			<ul id="dateList" data-role="listview" data-theme="c" class="ui-listview">			
+		<div data-role="content" id="dateContent" name="dateContent" data-theme="c">
+			<ul id="dateList" data-role="listview" data-theme="c" class="ui-listview">
 			</ul>
 		</div>
-		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">			
+		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">
 			<a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a>
 		</div>
 	</div>
-	
+
   	<div data-role="page" data-theme="c" id="showDate">
 		<div data-role="header" id="hdrMain" name="hdrMain">
 			<a href="#/dates" class="nav-button" data-direction="reverse" data-icon="back" data-theme="a">Datas</a>
@@ -55,15 +55,15 @@
 			<h1></h1>
 			<a href="#/myagenda" class="nav-button ui-btn-right" data-iconpos="notext" data-icon="grid" data-theme="a" data-transition="slide"></a>
 		</div>
-		<div data-role="content" id="programmeContent" name="programmeContent" data-theme="c">			
-			<ul id="programmeList" data-role="listview" data-theme="c" class="ui-listview">			
+		<div data-role="content" id="programmeContent" name="programmeContent" data-theme="c">
+			<ul id="programmeList" data-role="listview" data-theme="c" class="ui-listview">
 			</ul>
 		</div>
-		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">			
+		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">
 			<a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a>
 		</div>
 	</div>
-	
+
 	<div data-role="page" data-theme="c" id="myAgenda">
 		<div data-role="header" id="hdrMain" name="hdrMain">
 			<h1>A Minha Agenda</h1>
@@ -73,20 +73,44 @@
 			<ul id="myEventsList" data-role="listview" data-theme="c" class="ui-listview" data-dividertheme="a">
 			</ul>
 		</div>
-		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">			
+		<div data-role="footer" data-position="fixed" name="footer" data-theme="c">
 			<a data-role="none" href="http://queerlisboa.pt">Visite o queerlisboa.pt</a>
 		</div>
 	</div>
-  
+
+	<!--
   <script src="build/application.js"></script>
-    
+
+  libs/jquery-1.6.2.min.js,
+  libs/underscore.min.js,
+  libs/json2.js,
+  libs/backbone-0.5.3.js,
+  libs/backbone-localstorage.js,
+  libs/handlebars.js,
+  libs/strftime.min.js,
+  app.js,
+  libs/jquery.mobile-1.0b3.js,
+  mylibs/helper.js,libs/spin.js
+-->
+	<script src="js/libs/jquery-1.6.2.min.js"></script>
+	<script src="js/libs/underscore.min.js"></script>
+	<script src="js/libs/json2.js"></script>
+	<script src="js/libs/backbone-0.5.3.js"></script>
+	<script src="js/libs/backbone-localstorage.js"></script>
+	<script src="js/libs/handlebars.js"></script>
+	<script src="js/libs/strftime.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/libs/jquery.mobile-1.0b3.js"></script>
+	<script src="js/mylibs/helper.js"></script>
+	<script src="js/libs/spin.js"></script>
+
   <script type="text/javascript">
 	if ('standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion)) {
 		document.write('<link rel="stylesheet" href="css/add2home.css">');
 		document.write('<script type="application/javascript" src="js/libs/add2home.js"><\/s' + 'cript>');
 	}
   </script>
-  
+
   <script>
     var _gaq=[["_setAccount","UA-18408021-1"],["_trackPageview"],['_trackPageLoadTime']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
